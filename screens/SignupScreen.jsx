@@ -20,7 +20,7 @@ export default function SignupScreen({ navigation }) {
   let [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
 
-  const [currentUser] = useCurrentUser();
+  const currentUser = useCurrentUser();
 
   const { values, handleSubmit, handleChange } = useFormik({
     initialValues: defaultFormValues,
@@ -30,10 +30,8 @@ export default function SignupScreen({ navigation }) {
     },
   });
 
-  console.log('Current User:', currentUser);
-
   if (currentUser) {
-    navigation.navigate('Home');
+    navigation.navigate('Introduction');
   }
 
   if (error?.message) {
@@ -43,7 +41,7 @@ export default function SignupScreen({ navigation }) {
 
   if (user) {
     createUserProfileDocument(user?.user)
-      .then(() => navigation.navigate('Home'))
+      .then(() => navigation.navigate('Welcome'))
       .catch((err) => console.error(err));
   }
 
