@@ -20,6 +20,8 @@ export default function HomePage({ navigation }) {
   const [value, setValue] = useSample();
   const date = new Date().toLocaleDateString();
 
+  console.log('VALUE:', value);
+
   function handlePress(date) {
     navigation.navigate('Goal');
   }

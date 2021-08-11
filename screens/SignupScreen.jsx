@@ -4,6 +4,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { auth, createUserProfileDocument } from '../utils/firebase';
+import useCurrentUser from '../hooks/useCurrentUser';
 
 const defaultFormValues = {
   email: '',
@@ -19,6 +20,8 @@ export default function SignupScreen({ navigation }) {
   let [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
 
+  const currentUser = useCurrentUser();
+
   const { values, handleSubmit, handleChange } = useFormik({
     initialValues: defaultFormValues,
     validationSchema,
@@ -27,6 +30,10 @@ export default function SignupScreen({ navigation }) {
     },
   });
 
+  if (currentUser) {
+    navigation.navigate('Introduction');
+  }
+
   if (error?.message) {
     Alert.alert(error.message);
     error.message = '';
@@ -34,7 +41,7 @@ export default function SignupScreen({ navigation }) {
 
   if (user) {
     createUserProfileDocument(user?.user)
-      .then(() => navigation.navigate('Home'))
+      .then(() => navigation.navigate('Welcome'))
       .catch((err) => console.error(err));
   }
 
