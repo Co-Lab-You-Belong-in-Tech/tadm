@@ -26,9 +26,19 @@ Insert gif or link to demo
 
 To run this project, you will need to add the following environment variables to your .env file
 
-`API_KEY`
+`FIREBASE_API_KEY`
 
-`ANOTHER_API_KEY`
+`FIREBASE_AUTH_DOMAIN`
+
+`FIREBASE_PROJECT_ID`
+
+`FIREBASE_STORAGE_BUCKET`
+
+`FIREBASE_MESSAGING_SENDER_ID`
+
+`FIREBASE_APP_ID`
+
+`FIREBASE_MEASURING_ID`
 
   
 ## Installation
@@ -44,18 +54,12 @@ Install my-project with npm
     
 ## Roadmap
 
-- Additional browser support
-
-- Add more integrations
+- @TODO
 
   
 ## Deployment
 
-To deploy this project run
-
-```bash
-  npm run deploy
-```
+@TODO
 
   
 ## Contributing
