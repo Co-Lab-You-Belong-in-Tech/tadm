@@ -54,12 +54,12 @@ Install my-project with npm
     
 ## Roadmap
 
-- @TODO
+@TODO
 
   
 ## Deployment
 
-- @TODO
+@TODO
 
   
 ## Contributing
