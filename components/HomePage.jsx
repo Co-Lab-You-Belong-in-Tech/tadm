@@ -1,8 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { StyleSheet, TextInput, View, Text, Button, Image, TouchableOpacity } from 'react-native';
 import useCurrentUser from '../hooks/useCurrentUser';
-
-import useSample from '../hooks/useSample';
 import { db } from '../utils/firebase';
 const usersRef = db.collection('users');
 

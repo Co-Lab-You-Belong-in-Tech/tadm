@@ -1,27 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, TextInput, View, Text, Button, Alert } from 'react-native';
+import { StyleSheet, View, Text, Alert } from 'react-native';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { auth, createUserProfileDocument } from '../utils/firebase';
 import useCurrentUser from '../hooks/useCurrentUser';
+import InputField from '../components/InputField';
+import { CheckBox } from 'react-native-elements';
+import CustomButton from '../components/CustomButton';
 
 const defaultFormValues = {
   email: '',
   password: '',
+  tos: false,
 };
 
 const validationSchema = yup.object().shape({
   email: yup.string().email(),
   password: yup.string().required().min(6),
+  tos: yup.boolean().oneOf([true], 'Accept Terms & Conditions is required'),
 });
 
 export default function SignupScreen({ navigation }) {
-  const currentUser = useCurrentUser();
+  // const currentUser = useCurrentUser();
 
-  if (currentUser) {
-    navigation.navigate('Home');
-  }
+  // if (currentUser) {
+  //   navigation.navigate('Home');
+  // }
 
   const [createUserWithEmailAndPassword, registereduser, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
@@ -55,24 +60,35 @@ export default function SignupScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.input}
+      <Text style={styles.title}>Let’s get started!</Text>
+      <Text style={styles.intro}>Create an account so we can get you matched</Text>
+      <InputField
+        label="Email"
         autoCapitalize="none"
         autoCorrect={false}
-        placeholder="Email"
         value={values.email}
         onChangeText={handleChange('email')}
       />
-      <TextInput
-        style={styles.input}
+      <InputField
+        label="Password"
         autoCapitalize="none"
         autoCorrect={false}
-        placeholder="Password"
         value={values.password}
         onChangeText={handleChange('password')}
         secureTextEntry
       />
-      <Button onPress={handleSubmit} style={styles.button} title="REGISTER" />
+      <CheckBox
+        title="I agree to the Terms of Service"
+        checked={values.tos}
+        checkedColor="black"
+        uncheckedColor="black"
+        containerStyle={{
+          backgroundColor: 'transparent',
+          borderColor: 'transparent',
+        }}
+        onPress={() => handleChange('tos')({ target: { value: !values.tos } })}
+      />
+      <CustomButton onPress={handleSubmit} title="Sign Up" />
     </View>
   );
 }
@@ -81,23 +97,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    backgroundColor: 'white',
   },
-  input: {
-    height: 40,
-    width: '100%',
-    borderWidth: 1,
-    padding: 10,
-    marginBottom: 20,
-    borderColor: 'gray',
-    textAlign: 'left',
-    borderRadius: 5,
+  title: {
+    fontWeight: 'bold',
+    fontSize: 28,
+    marginBottom: 15,
   },
-  button: {
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 5,
-    width: '100%',
-    color: '#111',
-    padding: 10,
+  intro: {
+    marginBottom: 25,
+    fontSize: 18,
   },
 });
