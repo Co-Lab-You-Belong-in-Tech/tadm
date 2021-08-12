@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, TextInput, View, Text, Button, Alert } from 'react-native';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -17,10 +17,14 @@ const validationSchema = yup.object().shape({
 });
 
 export default function SignupScreen({ navigation }) {
-  let [createUserWithEmailAndPassword, user, loading, error] =
-    useCreateUserWithEmailAndPassword(auth);
-
   const currentUser = useCurrentUser();
+
+  if (currentUser) {
+    navigation.navigate('Home');
+  }
+
+  const [createUserWithEmailAndPassword, registereduser, loading, error] =
+    useCreateUserWithEmailAndPassword(auth);
 
   const { values, handleSubmit, handleChange } = useFormik({
     initialValues: defaultFormValues,
@@ -29,13 +33,6 @@ export default function SignupScreen({ navigation }) {
       createUserWithEmailAndPassword(values.email, values.password);
     },
   });
-
-  useEffect ( () => {
-    if (currentUser) {
-      navigation.navigate('Introduction');
-    }
-  }, [])
-    
 
   if (error?.message) {
     Alert.alert(error.message);
