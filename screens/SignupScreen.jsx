@@ -22,11 +22,11 @@ const validationSchema = yup.object().shape({
 });
 
 export default function SignupScreen({ navigation }) {
-  // const currentUser = useCurrentUser();
+  const currentUser = useCurrentUser();
 
-  // if (currentUser) {
-  //   navigation.navigate('Home');
-  // }
+  if (currentUser) {
+    navigation.navigate('Home');
+  }
 
   const [createUserWithEmailAndPassword, registereduser, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
@@ -80,12 +80,13 @@ export default function SignupScreen({ navigation }) {
       <CheckBox
         title="I agree to the Terms of Service"
         checked={values.tos}
-        checkedColor="black"
-        uncheckedColor="black"
+        checkedColor="gray"
+        uncheckedColor="gray"
         containerStyle={{
           backgroundColor: 'transparent',
           borderColor: 'transparent',
         }}
+        textStyle={{ fontWeight: 400 }}
         onPress={() => handleChange('tos')({ target: { value: !values.tos } })}
       />
       <CustomButton onPress={handleSubmit} title="Sign Up" />
