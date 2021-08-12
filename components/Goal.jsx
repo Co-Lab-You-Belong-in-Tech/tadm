@@ -1,8 +1,20 @@
 import React, { useState } from 'react';
 import { StyleSheet, TextInput, View, Text, Button } from 'react-native';
+import { db } from '../utils/firebase';
+import useCurrentUser from '../hooks/useCurrentUser';
+
+const usersRef = db.collection('users');
 
 export default function Goal({ navigation }) {
+  const currentUser = useCurrentUser();
   const [goal, setGoal] = useState('');
+
+  function handlePress () {
+    navigation.navigate('Home')
+    usersRef.doc(currentUser.uid).update({
+        goal
+    })
+  }
 
   return (
     <View style={styles.container}>
@@ -16,7 +28,7 @@ export default function Goal({ navigation }) {
         value={goal}
         onChangeText={setGoal}
       />
-      <Button style={styles.button} onPress={() => navigation.navigate('Home')} title="Finish" />
+      <Button style={styles.button} onPress={handlePress} title="Finish" />
     </View>
   );
 }
