@@ -1,8 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { StyleSheet, TextInput, View, Text, Button, Image, TouchableOpacity } from 'react-native';
 import useCurrentUser from '../hooks/useCurrentUser';
-
-import useSample from '../hooks/useSample';
 import { db } from '../utils/firebase';
 const usersRef = db.collection('users');
 
@@ -20,13 +18,12 @@ export default function HomePage({ navigation }) {
   const [goal, setGoal] = useState('');
   const date = new Date().toLocaleDateString();
 
-
-  useEffect ( () => {
-    const unsubscribe = usersRef.doc(currentUser.uid).onSnapshot(res => {
-      setGoal(res.data().goal)
-    })
-    return () => unsubscribe()
-  }, [])
+  useEffect(() => {
+    const unsubscribe = usersRef.doc(currentUser.uid).onSnapshot((res) => {
+      setGoal(res.data()?.goal || 'sample goal');
+    });
+    return () => unsubscribe();
+  }, []);
 
   function handlePress(date) {
     navigation.navigate('Goal');
@@ -63,8 +60,7 @@ export default function HomePage({ navigation }) {
           <Image source={require('../assets/chat_bubble_outline.png')}></Image>
         </View>
         <Text style={styles.aboveBottomText}>Partner's Weekly Goal </Text>
-        <View style={styles.bottom}>
-        </View>
+        <View style={styles.bottom}></View>
         <View style={styles.footerItem}>
           <Text style={styles.goal}> </Text>
         </View>
