@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Text, TextInput, View, StyleSheet, Pressable } from 'react-native';
+import { Text, TextInput, StyleSheet, Pressable } from 'react-native';
 
 export default function InputField({ label, ...inputProps }) {
   const inputRef = useRef();
