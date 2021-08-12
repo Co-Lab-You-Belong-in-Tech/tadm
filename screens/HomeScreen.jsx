@@ -1,5 +1,5 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { StyleSheet, TextInput, View, Text, Button, Image, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import useCurrentUser from '../hooks/useCurrentUser';
 import { db } from '../utils/firebase';
 const usersRef = db.collection('users');
@@ -13,14 +13,14 @@ function getDate(offset) {
 
 const goalDates = [6, 5, 4, 3, 2, 1, 0].map((item) => getDate(item));
 
-export default function HomePage({ navigation }) {
+export default function HomeScreen({ navigation }) {
   const currentUser = useCurrentUser();
-  const [goal, setGoal] = useState('');
+  const [profile, setProfile] = useState({});
   const date = new Date().toLocaleDateString();
 
   useEffect(() => {
     const unsubscribe = usersRef.doc(currentUser.uid).onSnapshot((res) => {
-      setGoal(res.data()?.goal || 'sample goal');
+      setProfile(res.data());
     });
     return () => unsubscribe();
   }, []);
@@ -33,7 +33,7 @@ export default function HomePage({ navigation }) {
     <View style={styles.wrapper}>
       <Text style={styles.aboveTopText}>Weekly Goal </Text>
       <View style={styles.top}>
-        <Text style={styles.topText}> {goal ? goal : 'insert goal here'} </Text>
+        <Text style={styles.topText}> {profile?.goal || 'insert goal here'} </Text>
         <View style={styles.topView}>
           {goalDates.map((item, idx) => (
             <View key={idx} style={styles.topViews}>
