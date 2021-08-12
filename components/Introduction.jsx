@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import { StyleSheet, TextInput, View, Text, Button } from 'react-native';
+import { db } from '../utils/firebase';
+import useCurrentUser from '../hooks/useCurrentUser';
+
+const usersRef = db.collection('users');
+
 export default function Introduction({ navigation }) {
+  const currentUser = useCurrentUser();
   const [values, setValues] = useState({
     name: '',
     introduction: '',
@@ -10,7 +16,12 @@ export default function Introduction({ navigation }) {
     setValues((values) => ({ ...values, [name]: value }));
   };
 
+
   const handlePress = () => {
+    usersRef.doc(currentUser.uid).update({
+      name: values.name,
+      introduction: values.introduction,
+    })
     navigation.navigate('Goal');
   };
 
