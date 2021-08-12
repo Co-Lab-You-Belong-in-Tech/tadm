@@ -9,6 +9,7 @@ import useCurrentUser from '../hooks/useCurrentUser';
 import InputField from '../components/InputField';
 import CustomButton from '../components/CustomButton';
 import PasswordInput from '../components/PasswordInput';
+import Intro from '../components/Intro';
 
 const defaultFormValues = {
   email: '',
@@ -25,10 +26,6 @@ const validationSchema = yup.object().shape({
 export default function SignupScreen({ navigation }) {
   const currentUser = useCurrentUser();
 
-  if (currentUser) {
-    navigation.navigate('Home');
-  }
-
   const [createUserWithEmailAndPassword, registereduser, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
 
@@ -41,8 +38,14 @@ export default function SignupScreen({ navigation }) {
   });
 
   useEffect(() => {
+    if (currentUser) {
+      navigation.navigate('Profile');
+    }
+  }, [currentUser]);
+
+  useEffect(() => {
     createUserProfileDocument(registereduser?.user)
-      .then(() => navigation.navigate('Welcome'))
+      .then(() => navigation.navigate('Profile'))
       .catch((err) => console.error(err));
   }, [registereduser]);
 
@@ -61,8 +64,7 @@ export default function SignupScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Let’s get started!</Text>
-      <Text style={styles.intro}>Create an account so we can get you matched</Text>
+      <Intro title="Let’s get started!" description="Create an account so we can get you matched" />
       <InputField
         label="Email"
         value={values.email}
@@ -93,15 +95,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: 'white',
-  },
-  title: {
-    fontWeight: 'bold',
-    fontSize: 28,
-    marginBottom: 15,
-  },
-  intro: {
-    marginBottom: 25,
-    fontSize: 18,
   },
   checkBoxContainer: {
     backgroundColor: 'transparent',
