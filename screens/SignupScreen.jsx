@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, View, Text, Alert } from 'react-native';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -39,16 +39,16 @@ export default function SignupScreen({ navigation }) {
     },
   });
 
+  useEffect(() => {
+    createUserProfileDocument(registereduser?.user)
+      .then(() => navigation.navigate('Welcome'))
+      .catch((err) => console.error(err));
+  }, [registereduser]);
+
   if (error?.message) {
     Alert.alert(error.message);
     error.message = '';
   }
-
-  // if (user) {
-  //   createUserProfileDocument(user?.user)
-  //     .then(() => navigation.navigate('Welcome'))
-  //     .catch((err) => console.error(err));
-  // }
 
   if (loading) {
     return (
