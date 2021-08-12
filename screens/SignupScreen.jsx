@@ -68,6 +68,7 @@ export default function SignupScreen({ navigation }) {
         autoCorrect={false}
         value={values.email}
         onChangeText={handleChange('email')}
+        textContentType="emailAddress"
       />
       <InputField
         label="Password"
@@ -76,6 +77,7 @@ export default function SignupScreen({ navigation }) {
         value={values.password}
         onChangeText={handleChange('password')}
         secureTextEntry
+        textContentType="newPassword"
       />
       <CheckBox
         title="I agree to the Terms of Service"
