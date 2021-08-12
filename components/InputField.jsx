@@ -1,12 +1,18 @@
-import React from 'react';
-import { Text, TextInput, View, StyleSheet } from 'react-native';
+import React, { useRef } from 'react';
+import { Text, TextInput, View, StyleSheet, Pressable } from 'react-native';
 
 export default function InputField({ label, ...inputProps }) {
+  const inputRef = useRef();
+
+  const focusInput = () => {
+    inputRef.current?.focus();
+  };
+
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress={focusInput}>
       <Text style={styles.label}>{label}</Text>
-      <TextInput style={styles.field} {...inputProps} />
-    </View>
+      <TextInput ref={inputRef} style={styles.field} {...inputProps} />
+    </Pressable>
   );
 }
 
