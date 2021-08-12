@@ -33,7 +33,9 @@ export default function SignupScreen({ navigation }) {
     initialValues: defaultFormValues,
     validationSchema,
     onSubmit: (values) => {
-      createUserWithEmailAndPassword(values.email, values.password);
+      createUserWithEmailAndPassword(values.email, values.password)
+      .then(() => navigation.navigate('Profile'))
+      .catch((err) => console.error(err));
     },
   });
 
@@ -41,13 +43,7 @@ export default function SignupScreen({ navigation }) {
     if (currentUser) {
       navigation.navigate('Home');
     }
-  }, [currentUser]);
-
-  useEffect(() => {
-    createUserProfileDocument(registereduser?.user)
-      .then(() => navigation.navigate('Profile'))
-      .catch((err) => console.error(err));
-  }, [registereduser]);
+  }, []);
 
   if (error?.message) {
     Alert.alert(error.message);

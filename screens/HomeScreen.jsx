@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableOpacity, Button } from 'react-native';
 import useCurrentUser from '../hooks/useCurrentUser';
 import { db } from '../utils/firebase';
 const usersRef = db.collection('users');
@@ -26,7 +26,7 @@ export default function HomeScreen({ navigation }) {
   }, []);
 
   function handlePress(date) {
-    navigation.navigate('Goal');
+    // setProfile({...profile, goalHistory: [...goalHistory, date]})
   }
 
   return (
@@ -37,9 +37,11 @@ export default function HomeScreen({ navigation }) {
         <View style={styles.topView}>
           {goalDates.map((item, idx) => (
             <View key={idx} style={styles.topViews}>
-              <TouchableOpacity
+              <Button
                 style={styles.touchable}
-                onPress={() => handlePress(item)}></TouchableOpacity>
+                title={item.split('/')[0] + '/' + item.split('/')[1]}
+                onPress={() => handlePress(item)}>
+              </Button>
             </View>
           ))}
         </View>
@@ -59,7 +61,6 @@ export default function HomeScreen({ navigation }) {
         <View style={styles.footerItem}>
           <Image source={require('../assets/chat_bubble_outline.png')}></Image>
         </View>
-        <Text style={styles.aboveBottomText}>Partner's Weekly Goal </Text>
         <View style={styles.bottom}></View>
         <View style={styles.footerItem}>
           <Text style={styles.goal}> </Text>
@@ -111,15 +112,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   topViews: {
+    display: 'flex',
     backgroundColor: '#f1f1f1',
     width: 50,
     height: 50,
     borderRadius: 30,
     margin: 2,
+    justifyContent: 'center',
   },
   touchable: {
     width: 100,
     height: 100,
+    color: 'black',
   },
   middle: {
     alignItems: 'center',
