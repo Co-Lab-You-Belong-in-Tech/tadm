@@ -65,27 +65,22 @@ export default function SignupScreen({ navigation }) {
       <Text style={styles.intro}>Create an account so we can get you matched</Text>
       <InputField
         label="Email"
-        autoCapitalize="none"
-        autoCorrect={false}
         value={values.email}
         onChangeText={handleChange('email')}
-        textContentType="emailAddress"
+        type="emailAddress"
       />
       <PasswordInput
         value={values.password}
         onChangeText={handleChange('password')}
-        textContentType="newPassword"
+        type="newPassword"
       />
       <CheckBox
         title="I agree to the Terms of Service"
         checked={values.tos}
         checkedColor="gray"
         uncheckedColor="gray"
-        containerStyle={{
-          backgroundColor: 'transparent',
-          borderColor: 'transparent',
-        }}
-        textStyle={{ fontWeight: 400 }}
+        containerStyle={styles.checkBoxContainer}
+        textStyle={styles.checkboxText}
         onPress={() => handleChange('tos')({ target: { value: !values.tos } })}
       />
       <CustomButton onPress={handleSubmit} title="Sign Up" />
@@ -108,4 +103,9 @@ const styles = StyleSheet.create({
     marginBottom: 25,
     fontSize: 18,
   },
+  checkBoxContainer: {
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+  },
+  checkboxText: { fontWeight: '400' },
 });
