@@ -1,13 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { StyleSheet, TextInput, View, Text, Button } from 'react-native';
-import { UserContext } from '../contexts/UserContext';
 import { db } from '../utils/firebase';
 
 const usersRef = db.collection('users');
 
 export default function LandingPage({ navigation }) {
   const [email, setEmail] = useState('');
-  const { value, setValue } = useContext(UserContext);
 
   // useEffect ( () => {
   //     usersRef.doc(value.email).get().then( res => {
@@ -28,7 +26,6 @@ export default function LandingPage({ navigation }) {
           res.data().name
         ) {
           navigation.navigate('HomePage');
-          setValue(res.data());
         } else {
           navigation.navigate('NameAndIntroduction');
           setValue({ email });
