@@ -59,7 +59,6 @@ export default function HomeScreen({ navigation }) {
         <View style={styles.footerItem}>
           <Image source={require('../assets/chat_bubble_outline.png')}></Image>
         </View>
-        <Text style={styles.aboveBottomText}>Partner's Weekly Goal </Text>
         <View style={styles.bottom}></View>
         <View style={styles.footerItem}>
           <Text style={styles.goal}> </Text>
