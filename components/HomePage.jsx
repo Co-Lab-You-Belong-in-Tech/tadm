@@ -17,10 +17,9 @@ const goalDates = [6, 5, 4, 3, 2, 1, 0].map((item) => getDate(item));
 
 export default function HomePage({ navigation }) {
   const [goal, setGoal] = useState('');
-  const [value, setValue] = useSample();
   const date = new Date().toLocaleDateString();
 
-  console.log('VALUE:', value);
+
 
   function handlePress(date) {
     navigation.navigate('Goal');
@@ -30,7 +29,7 @@ export default function HomePage({ navigation }) {
     <View style={styles.wrapper}>
       <Text style={styles.aboveTopText}>Weekly Goal </Text>
       <View style={styles.top}>
-        <Text style={styles.topText}>{value?.goal || ''} </Text>
+        <Text style={styles.topText}> insert goal here </Text>
         <View style={styles.topView}>
           {goalDates.map((item, idx) => (
             <View key={idx} style={styles.topViews}>
@@ -48,7 +47,9 @@ export default function HomePage({ navigation }) {
 
       <Text style={styles.aboveBottomText}>Partner's Weekly Goal </Text>
       <View style={styles.bottom}>
-        <Text style={styles.bottomText}>Waiting to match... </Text>
+        <View style={styles.bottomUnMatched}>
+          <Text style={styles.bottomUnMatchedText}>Waiting to match... </Text>
+        </View>
       </View>
       <View style={styles.footer}>
         <View style={styles.footerItem}>
@@ -56,9 +57,6 @@ export default function HomePage({ navigation }) {
         </View>
         <Text style={styles.aboveBottomText}>Partner's Weekly Goal </Text>
         <View style={styles.bottom}>
-          <View style={styles.bottomUnMatched}>
-            <Text style={styles.bottomUnMatchedText}>Waiting to match... </Text>
-          </View>
         </View>
         <View style={styles.footerItem}>
           <Text style={styles.goal}> </Text>
