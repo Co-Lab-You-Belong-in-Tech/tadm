@@ -26,10 +26,6 @@ const validationSchema = yup.object().shape({
 export default function SignupScreen({ navigation }) {
   const currentUser = useCurrentUser();
 
-  if (currentUser) {
-    navigation.navigate('Home');
-  }
-
   const [createUserWithEmailAndPassword, registereduser, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
 
@@ -42,8 +38,14 @@ export default function SignupScreen({ navigation }) {
   });
 
   useEffect(() => {
+    if (currentUser) {
+      navigation.navigate('Profile');
+    }
+  }, [currentUser]);
+
+  useEffect(() => {
     createUserProfileDocument(registereduser?.user)
-      .then(() => navigation.navigate('Welcome'))
+      .then(() => navigation.navigate('Profile'))
       .catch((err) => console.error(err));
   }, [registereduser]);
 

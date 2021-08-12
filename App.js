@@ -9,6 +9,7 @@ import HomePage from './components/HomePage';
 import SignupScreen from './screens/SignupScreen';
 // Utils
 import { UserProvider } from './contexts/UserContext';
+import ProfileScreen from './screens/ProfileScreen';
 
 const Stack = createStackNavigator();
 
@@ -20,6 +21,7 @@ const StackNavigation = () => (
       <Stack.Screen name="Introduction" component={Introduction} />
       <Stack.Screen name="Goal" component={Goal} />
       <Stack.Screen name="Home" component={HomePage} />
+      <Stack.Screen name="Profile" component={ProfileScreen} />
     </Stack.Navigator>
   </NavigationContainer>
 );
