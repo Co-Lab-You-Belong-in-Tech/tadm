@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { Text, TextInput, StyleSheet, Pressable } from 'react-native';
 
-export default function InputField({ label, ...inputProps }) {
+export default function InputField({ label, type, ...inputProps }) {
   const inputRef = useRef();
 
   const focusInput = () => {
@@ -11,7 +11,12 @@ export default function InputField({ label, ...inputProps }) {
   return (
     <Pressable style={styles.container} onPress={focusInput}>
       <Text style={styles.label}>{label}</Text>
-      <TextInput ref={inputRef} style={styles.field} {...inputProps} />
+      <TextInput
+        ref={inputRef}
+        style={styles.field}
+        textContentType={type || 'none'}
+        {...inputProps}
+      />
     </Pressable>
   );
 }
