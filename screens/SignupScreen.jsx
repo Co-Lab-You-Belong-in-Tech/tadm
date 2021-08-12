@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, View, Text, Alert } from 'react-native';
 import { useFormik } from 'formik';
+import { CheckBox } from 'react-native-elements';
 import * as yup from 'yup';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { auth, createUserProfileDocument } from '../utils/firebase';
 import useCurrentUser from '../hooks/useCurrentUser';
 import InputField from '../components/InputField';
-import { CheckBox } from 'react-native-elements';
 import CustomButton from '../components/CustomButton';
 import PasswordInput from '../components/PasswordInput';
 
