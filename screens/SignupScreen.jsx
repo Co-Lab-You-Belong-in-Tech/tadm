@@ -8,6 +8,7 @@ import useCurrentUser from '../hooks/useCurrentUser';
 import InputField from '../components/InputField';
 import { CheckBox } from 'react-native-elements';
 import CustomButton from '../components/CustomButton';
+import PasswordInput from '../components/PasswordInput';
 
 const defaultFormValues = {
   email: '',
@@ -70,13 +71,9 @@ export default function SignupScreen({ navigation }) {
         onChangeText={handleChange('email')}
         textContentType="emailAddress"
       />
-      <InputField
-        label="Password"
-        autoCapitalize="none"
-        autoCorrect={false}
+      <PasswordInput
         value={values.password}
         onChangeText={handleChange('password')}
-        secureTextEntry
         textContentType="newPassword"
       />
       <CheckBox
