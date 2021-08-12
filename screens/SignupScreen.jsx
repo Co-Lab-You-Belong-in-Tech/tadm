@@ -39,7 +39,7 @@ export default function SignupScreen({ navigation }) {
 
   useEffect(() => {
     if (currentUser) {
-      navigation.navigate('Profile');
+      navigation.navigate('Home');
     }
   }, [currentUser]);
 

@@ -5,11 +5,11 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LandingPage from './components/LandingPage';
 import Introduction from './components/Introduction';
 import Goal from './components/Goal';
-import HomePage from './components/HomePage';
+import HomeScreen from './screens/HomeScreen';
 import SignupScreen from './screens/SignupScreen';
+import ProfileScreen from './screens/ProfileScreen';
 // Utils
 import { UserProvider } from './contexts/UserContext';
-import ProfileScreen from './screens/ProfileScreen';
 
 const Stack = createStackNavigator();
 
@@ -20,7 +20,7 @@ const StackNavigation = () => (
       <Stack.Screen name="Welcome" component={LandingPage} />
       <Stack.Screen name="Introduction" component={Introduction} />
       <Stack.Screen name="Goal" component={Goal} />
-      <Stack.Screen name="Home" component={HomePage} />
+      <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
     </Stack.Navigator>
   </NavigationContainer>
