@@ -14,7 +14,7 @@ function getDate(offset) {
 const goalDates = [6, 5, 4, 3, 2, 1, 0].map((item) => getDate(item));
 
 export default function HomeScreen({ navigation }) {
-  const currentUser = useCurrentUser();
+  const { currentUser } = useCurrentUser();
   const [profile, setProfile] = useState({});
   const [buddyProfile, setBuddyProfile] = useState({});
   const date = new Date().toLocaleDateString();

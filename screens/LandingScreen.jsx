@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, SafeAreaView, View, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import CustomButton from '../components/CustomButton';
 
 export default function LandingScreen({ navigation }) {

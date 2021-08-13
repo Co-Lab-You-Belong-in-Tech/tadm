@@ -25,7 +25,7 @@ const validationSchema = yup.object().shape({
 });
 
 export default function ProfileScreen({ navigation }) {
-  const currentUser = useCurrentUser();
+  const { currentUser } = useCurrentUser();
   const [image, setImage] = useState(null);
   const { handleChange, handleSubmit, values } = useFormik({
     initialValues,
