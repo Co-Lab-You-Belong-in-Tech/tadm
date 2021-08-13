@@ -93,25 +93,6 @@ export default function HomeScreen({ navigation }) {
           </Text>
         </View>
       </View>
-      {/* <View style={styles.footer}>
-        {buddyProfile.size && (
-          <View style={styles.footerItem}>
-            <Image
-              style={{ flex: 1, width: 40, resizeMode: 'contain' }}
-              source={require('../assets/icons8-chat-96.png')}></Image>
-          </View>
-        )}
-        <View style={styles.footerItem}>
-          <Image
-            style={{ flex: 1, width: 40, resizeMode: 'contain' }}
-            source={require('../assets/icons8-home-96.png')}></Image>
-        </View>
-        <View style={styles.footerItem}>
-          <Image
-            style={{ flex: 1, width: 40, resizeMode: 'contain' }}
-            source={require('../assets/icons8-customer-90.png')}></Image>
-        </View>
-      </View> */}
     </View>
   );
 }
