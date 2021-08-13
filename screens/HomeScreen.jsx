@@ -20,11 +20,10 @@ export default function HomeScreen({ navigation }) {
   const date = new Date().toLocaleDateString();
 
   useEffect(() => {
-    const unsubscribe = usersRef.doc(currentUser.uid).onSnapshot((res) => {
+    usersRef.doc(currentUser?.uid).onSnapshot((res) => {
       setProfile(res.data());
       //need to figure out how to add buddy profile
     });
-    return () => unsubscribe();
   }, []);
 
   useEffect(() => {}, [buddyProfile]);

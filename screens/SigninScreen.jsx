@@ -1,8 +1,11 @@
 import React from 'react';
 import { useFormik } from 'formik';
-import { StyleSheet, TextInput, View, Text, Button } from 'react-native';
+import { StyleSheet, View, Text, Alert } from 'react-native';
 import * as yup from 'yup';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import InputField from '../components/InputField';
+import PasswordInput from '../components/PasswordInput';
+import CustomButton from '../components/CustomButton';
 import { auth } from '../utils/firebase';
 
 const defaultFormValues = {
@@ -15,7 +18,7 @@ const validationSchema = yup.object().shape({
   password: yup.string().required().min(6),
 });
 
-export default function LoginScreen({ navigation }) {
+export default function SigninScreen({ navigation }) {
   const [signInWithEmailAndPassword, user, loading, error] = useSignInWithEmailAndPassword(auth);
 
   const { values, handleSubmit, handleChange } = useFormik({
@@ -26,26 +29,31 @@ export default function LoginScreen({ navigation }) {
     },
   });
 
+  if (error?.message) {
+    Alert.alert(error.message);
+    error.message = '';
+  }
+
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        autoCapitalize="none"
-        autoCorrect={false}
-        placeholder="Email"
+      <InputField
+        label="Email"
         value={values.email}
         onChangeText={handleChange('email')}
+        type="emailAddress"
       />
-      <TextInput
-        style={styles.input}
-        autoCapitalize="none"
-        autoCorrect={false}
-        placeholder="Password"
+      <PasswordInput
         value={values.password}
         onChangeText={handleChange('password')}
-        secureTextEntry
+        type="newPassword"
       />
-      <Button onPress={handleSubmit} title="Login" style={styles.button} />
+      <Text>
+        Don't have an account yet?{' '}
+        <Text onPress={() => navigation.navigate('Signup')} style={styles.link}>
+          Register
+        </Text>
+      </Text>
+      <CustomButton onPress={handleSubmit} title="Sign In" />
     </View>
   );
 }
@@ -54,8 +62,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    // alignItems: 'center',
-    // justifyContent: 'center',
     padding: 20,
   },
   input: {
@@ -73,5 +79,8 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderRadius: 15,
     width: 100,
+  },
+  link: {
+    fontWeight: 'bold',
   },
 });
