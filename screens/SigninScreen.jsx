@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import { StyleSheet, View, Text, Alert } from 'react-native';
 import * as yup from 'yup';
@@ -7,6 +7,7 @@ import InputField from '../components/InputField';
 import PasswordInput from '../components/PasswordInput';
 import CustomButton from '../components/CustomButton';
 import { auth } from '../utils/firebase';
+import useCurrentUser from '../hooks/useCurrentUser';
 
 const defaultFormValues = {
   email: '',
@@ -19,6 +20,7 @@ const validationSchema = yup.object().shape({
 });
 
 export default function SigninScreen({ navigation }) {
+  const { setCurrentUser } = useCurrentUser();
   const [signInWithEmailAndPassword, user, loading, error] = useSignInWithEmailAndPassword(auth);
 
   const { values, handleSubmit, handleChange } = useFormik({
@@ -28,6 +30,12 @@ export default function SigninScreen({ navigation }) {
       signInWithEmailAndPassword(values.email, values.password);
     },
   });
+
+  useEffect(() => {
+    if (user?.user) {
+      setCurrentUser({ email: user.user.email, uid: user.user.uid });
+    }
+  }, [user?.user]);
 
   if (error?.message) {
     Alert.alert(error.message);

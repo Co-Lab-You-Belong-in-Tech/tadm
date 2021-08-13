@@ -14,7 +14,7 @@ import useCurrentUser from './hooks/useCurrentUser';
 const Stack = createStackNavigator();
 
 const ApplicationNavigation = () => {
-  const currentUser = useCurrentUser();
+  const { currentUser } = useCurrentUser();
 
   return currentUser ? (
     <Stack.Navigator>
