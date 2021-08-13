@@ -16,21 +16,20 @@ const goalDates = [6, 5, 4, 3, 2, 1, 0].map((item) => getDate(item));
 export default function HomeScreen({ navigation }) {
   const currentUser = useCurrentUser();
   const [profile, setProfile] = useState({});
+  const [buddyProfile, setBuddyProfile] = useState({});
   const date = new Date().toLocaleDateString();
 
   useEffect(() => {
     const unsubscribe = usersRef.doc(currentUser.uid).onSnapshot((res) => {
       setProfile(res.data());
-      if (res.data().buddyId) {
-        // console.log('yes!')
-      }
+      //need to figure out how to add buddy profile
     });
     return () => unsubscribe();
   }, []);
 
-  // useEffect ( () => {
-  //   console.log(profile)
-  // }, [profile])
+  useEffect ( () => {
+    console.log(buddyProfile)
+  }, [buddyProfile])
 
   function handlePress (date) {
     usersRef.doc(currentUser.uid).get().then( res => {
@@ -76,8 +75,8 @@ export default function HomeScreen({ navigation }) {
 
       <Text style={styles.aboveBottomText}>Partner's Weekly Goal </Text>
       <View style={styles.bottom}>
-        <View style={styles.bottomUnMatched}>
-          <Text style={styles.bottomUnMatchedText}>Waiting to match... </Text>
+        <View style={buddyProfile.size ? styles.bottomMatched : styles.bottomUnMatched}>
+          <Text style={styles.bottomUnMatchedText}>{buddyProfile.size ? buddyProfile.goal : 'Waiting to match...'} </Text>
         </View>
       </View>
       <View style={styles.footer}>
@@ -184,6 +183,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'white',
     fontSize: 30,
+  },
+  bottomMatchedText: {
+    fontWeight: 'bold',
+    fontSize: 18,
   },
   aboveTopText: {
     fontWeight: 'bold',
