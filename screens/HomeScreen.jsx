@@ -27,31 +27,34 @@ export default function HomeScreen({ navigation }) {
     return () => unsubscribe();
   }, []);
 
-  useEffect ( () => {
-    console.log(buddyProfile)
-  }, [buddyProfile])
+  useEffect(() => {}, [buddyProfile]);
 
-  function handlePress (date) {
-    usersRef.doc(currentUser.uid).get().then( res => {
+  function handlePress(date) {
+    usersRef
+      .doc(currentUser.uid)
+      .get()
+      .then((res) => {
         if (!res.data().goalHistory) {
-          setProfile({...profile, goalHistory: [date]})
+          setProfile({ ...profile, goalHistory: [date] });
           usersRef.doc(currentUser.uid).update({
             goalHistory: [date],
-          })
-        }
-        else if (res.data().goalHistory.find(item => item === date)) {
-            setProfile({...profile, goalHistory: profile.goalHistory.filter(item => item !== date)})
-            usersRef.doc(currentUser.uid).update({
-                goalHistory: res.data().goalHistory.filter(item => item !== date)
-            })
+          });
+        } else if (res.data().goalHistory.find((item) => item === date)) {
+          setProfile({
+            ...profile,
+            goalHistory: profile.goalHistory.filter((item) => item !== date),
+          });
+          usersRef.doc(currentUser.uid).update({
+            goalHistory: res.data().goalHistory.filter((item) => item !== date),
+          });
         } else {
-            setProfile({...profile, goalHistory: [...profile.goalHistory, date]})
-            usersRef.doc(currentUser.uid).update({
-                goalHistory: [...res.data().goalHistory, date],
-            })
+          setProfile({ ...profile, goalHistory: [...profile.goalHistory, date] });
+          usersRef.doc(currentUser.uid).update({
+            goalHistory: [...res.data().goalHistory, date],
+          });
         }
-    })
-}
+      });
+  }
 
   return (
     <View style={styles.wrapper}>
@@ -61,8 +64,16 @@ export default function HomeScreen({ navigation }) {
         <View style={styles.topView}>
           {goalDates.map((item, idx) => (
             <View key={idx} style={styles.topViews}>
-              <TouchableOpacity style={[styles.touchable, profile.goalHistory?.includes(item) && styles.completed]} onPress={() => handlePress(item)}>
-                <Text style={[styles.touchableText, profile.goalHistory?.includes(item) && {color: 'white'}]} >{item.split('/')[0] + '/' + item.split('/')[1]}</Text>
+              <TouchableOpacity
+                style={[styles.touchable, profile.goalHistory?.includes(item) && styles.completed]}
+                onPress={() => handlePress(item)}>
+                <Text
+                  style={[
+                    styles.touchableText,
+                    profile.goalHistory?.includes(item) && { color: 'white' },
+                  ]}>
+                  {item.split('/')[0] + '/' + item.split('/')[1]}
+                </Text>
               </TouchableOpacity>
             </View>
           ))}
@@ -76,18 +87,28 @@ export default function HomeScreen({ navigation }) {
       <Text style={styles.aboveBottomText}>Partner's Weekly Goal </Text>
       <View style={styles.bottom}>
         <View style={buddyProfile.size ? styles.bottomMatched : styles.bottomUnMatched}>
-          <Text style={styles.bottomUnMatchedText}>{buddyProfile.size ? buddyProfile.goal : 'Waiting to match...'} </Text>
+          <Text style={styles.bottomUnMatchedText}>
+            {buddyProfile.size ? buddyProfile.goal : 'Waiting to match...'}{' '}
+          </Text>
         </View>
       </View>
       <View style={styles.footer}>
-        {buddyProfile.size && <View style={styles.footerItem}>
-          <Image style={{flex:1, width: 40, resizeMode:"contain"}} source={require('../assets/icons8-chat-96.png')}></Image>
-        </View>}
+        {buddyProfile.size && (
+          <View style={styles.footerItem}>
+            <Image
+              style={{ flex: 1, width: 40, resizeMode: 'contain' }}
+              source={require('../assets/icons8-chat-96.png')}></Image>
+          </View>
+        )}
         <View style={styles.footerItem}>
-          <Image style={{flex:1, width: 40, resizeMode:"contain"}} source={require('../assets/icons8-home-96.png')}></Image>
+          <Image
+            style={{ flex: 1, width: 40, resizeMode: 'contain' }}
+            source={require('../assets/icons8-home-96.png')}></Image>
         </View>
         <View style={styles.footerItem}>
-          <Image style={{flex:1, width: 40, resizeMode:"contain"}} source={require('../assets/icons8-customer-90.png')}></Image>
+          <Image
+            style={{ flex: 1, width: 40, resizeMode: 'contain' }}
+            source={require('../assets/icons8-customer-90.png')}></Image>
         </View>
       </View>
     </View>
