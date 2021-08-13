@@ -34,6 +34,7 @@ export default function HomeScreen({ navigation }) {
       .doc(currentUser.uid)
       .get()
       .then((res) => {
+        console.log(currentUser.uid)
         if (!res.data().goalHistory) {
           setProfile({ ...profile, goalHistory: [date] });
           usersRef.doc(currentUser.uid).update({
