@@ -37,7 +37,7 @@ export default function SignupScreen({ navigation }) {
   useEffect(() => {
     if (registereduser?.user) {
       createUserProfileDocument(registereduser.user);
-      navigation.navigate('Profile');
+      navigation.navigate('Profile', { user: registereduser.user });
     }
   }, [registereduser?.user]);
 

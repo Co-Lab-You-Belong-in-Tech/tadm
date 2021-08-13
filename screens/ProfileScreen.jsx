@@ -24,15 +24,16 @@ const validationSchema = yup.object().shape({
   goal: yup.string().required(),
 });
 
-export default function ProfileScreen({ navigation }) {
-  const { currentUser } = useCurrentUser();
+export default function ProfileScreen({ route }) {
+  const { currentUser, setCurrentUser } = useCurrentUser();
   const [image, setImage] = useState(null);
   const { handleChange, handleSubmit, values } = useFormik({
     initialValues,
     validationSchema,
     onSubmit: (values) => {
       db.collection('users').doc(currentUser.uid).set(values, { merge: true });
-      navigation.navigate('Home');
+      const { uid, email } = route.params.user;
+      setCurrentUser({ uid, email });
     },
   });
 
