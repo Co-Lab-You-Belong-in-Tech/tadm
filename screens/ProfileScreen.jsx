@@ -31,8 +31,8 @@ export default function ProfileScreen({ navigation }) {
     initialValues,
     validationSchema,
     onSubmit: (values) => {
-      db.collection('users').doc(currentUser.uid).set(values);
-      navigation.navigate('Home')
+      db.collection('users').doc(currentUser.uid).set(values, { merge: true });
+      navigation.navigate('Home');
     },
   });
 

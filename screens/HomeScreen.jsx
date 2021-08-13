@@ -16,17 +16,44 @@ const goalDates = [6, 5, 4, 3, 2, 1, 0].map((item) => getDate(item));
 export default function HomeScreen({ navigation }) {
   const currentUser = useCurrentUser();
   const [profile, setProfile] = useState({});
+  const [buddyProfile, setBuddyProfile] = useState({});
   const date = new Date().toLocaleDateString();
 
   useEffect(() => {
     const unsubscribe = usersRef.doc(currentUser.uid).onSnapshot((res) => {
       setProfile(res.data());
+      //need to figure out how to add buddy profile
     });
     return () => unsubscribe();
   }, []);
 
+  useEffect(() => {}, [buddyProfile]);
+
   function handlePress(date) {
-    // setProfile({...profile, goalHistory: [...goalHistory, date]})
+    usersRef
+      .doc(currentUser.uid)
+      .get()
+      .then((res) => {
+        if (!res.data().goalHistory) {
+          setProfile({ ...profile, goalHistory: [date] });
+          usersRef.doc(currentUser.uid).update({
+            goalHistory: [date],
+          });
+        } else if (res.data().goalHistory.find((item) => item === date)) {
+          setProfile({
+            ...profile,
+            goalHistory: profile.goalHistory.filter((item) => item !== date),
+          });
+          usersRef.doc(currentUser.uid).update({
+            goalHistory: res.data().goalHistory.filter((item) => item !== date),
+          });
+        } else {
+          setProfile({ ...profile, goalHistory: [...profile.goalHistory, date] });
+          usersRef.doc(currentUser.uid).update({
+            goalHistory: [...res.data().goalHistory, date],
+          });
+        }
+      });
   }
 
   return (
@@ -37,11 +64,17 @@ export default function HomeScreen({ navigation }) {
         <View style={styles.topView}>
           {goalDates.map((item, idx) => (
             <View key={idx} style={styles.topViews}>
-              <Button
-                style={styles.touchable}
-                title={item.split('/')[0] + '/' + item.split('/')[1]}
+              <TouchableOpacity
+                style={[styles.touchable, profile.goalHistory?.includes(item) && styles.completed]}
                 onPress={() => handlePress(item)}>
-              </Button>
+                <Text
+                  style={[
+                    styles.touchableText,
+                    profile.goalHistory?.includes(item) && { color: 'white' },
+                  ]}>
+                  {item.split('/')[0] + '/' + item.split('/')[1]}
+                </Text>
+              </TouchableOpacity>
             </View>
           ))}
         </View>
@@ -53,17 +86,29 @@ export default function HomeScreen({ navigation }) {
 
       <Text style={styles.aboveBottomText}>Partner's Weekly Goal </Text>
       <View style={styles.bottom}>
-        <View style={styles.bottomUnMatched}>
-          <Text style={styles.bottomUnMatchedText}>Waiting to match... </Text>
+        <View style={buddyProfile.size ? styles.bottomMatched : styles.bottomUnMatched}>
+          <Text style={styles.bottomUnMatchedText}>
+            {buddyProfile.size ? buddyProfile.goal : 'Waiting to match...'}{' '}
+          </Text>
         </View>
       </View>
       <View style={styles.footer}>
+        {buddyProfile.size && (
+          <View style={styles.footerItem}>
+            <Image
+              style={{ flex: 1, width: 40, resizeMode: 'contain' }}
+              source={require('../assets/icons8-chat-96.png')}></Image>
+          </View>
+        )}
         <View style={styles.footerItem}>
-          <Image source={require('../assets/chat_bubble_outline.png')}></Image>
+          <Image
+            style={{ flex: 1, width: 40, resizeMode: 'contain' }}
+            source={require('../assets/icons8-home-96.png')}></Image>
         </View>
-        <View style={styles.bottom}></View>
         <View style={styles.footerItem}>
-          <Text style={styles.goal}> </Text>
+          <Image
+            style={{ flex: 1, width: 40, resizeMode: 'contain' }}
+            source={require('../assets/icons8-customer-90.png')}></Image>
         </View>
       </View>
     </View>
@@ -112,18 +157,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   topViews: {
-    display: 'flex',
     backgroundColor: '#f1f1f1',
-    width: 50,
-    height: 50,
     borderRadius: 30,
     margin: 2,
-    justifyContent: 'center',
+  },
+  completed: {
+    backgroundColor: 'green',
+    borderRadius: 30,
   },
   touchable: {
-    width: 100,
-    height: 100,
-    color: 'black',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 50,
+    height: 50,
+  },
+  touchableText: {
+    color: 'gray',
   },
   middle: {
     alignItems: 'center',
@@ -157,6 +207,10 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 30,
   },
+  bottomMatchedText: {
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
   aboveTopText: {
     fontWeight: 'bold',
     marginTop: 20,
@@ -186,5 +240,8 @@ const styles = StyleSheet.create({
   bottomText: {
     fontWeight: 'bold',
     fontSize: 24,
+  },
+  homeImg: {
+    resizeMode: 'contain',
   },
 });
