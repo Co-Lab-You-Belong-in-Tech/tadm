@@ -83,9 +83,11 @@ export default function HomeScreen({ navigation }) {
         <View style={styles.footerItem}>
           <Image source={require('../assets/chat_bubble_outline.png')}></Image>
         </View>
-        <View style={styles.bottom}></View>
         <View style={styles.footerItem}>
-          <Text style={styles.goal}> </Text>
+          <Image style={{flex:1, width: 40, resizeMode:"contain"}} source={require('../assets/home.png')}></Image>
+        </View>
+        <View style={styles.footerItem}>
+          <Image style={{flex:1, width: 40, resizeMode:"contain"}} source={require('../assets/icons8-customer-90.png')}></Image>
         </View>
       </View>
     </View>
@@ -217,5 +219,8 @@ const styles = StyleSheet.create({
   bottomText: {
     fontWeight: 'bold',
     fontSize: 24,
+  },
+  homeImg: {
+    resizeMode: 'contain',
   },
 });
