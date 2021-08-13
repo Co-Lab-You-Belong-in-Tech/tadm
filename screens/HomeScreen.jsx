@@ -64,12 +64,12 @@ export default function HomeScreen({ navigation }) {
           {goalDates.map((item, idx) => (
             <View key={idx} style={styles.topViews}>
               <TouchableOpacity
-                style={[styles.touchable, profile.goalHistory?.includes(item) && styles.completed]}
+                style={[styles.touchable, profile?.goalHistory?.includes(item) && styles.completed]}
                 onPress={() => handlePress(item)}>
                 <Text
                   style={[
                     styles.touchableText,
-                    profile.goalHistory?.includes(item) && { color: 'white' },
+                    profile?.goalHistory?.includes(item) && { color: 'white' },
                   ]}>
                   {item.split('/')[0] + '/' + item.split('/')[1]}
                 </Text>

@@ -15,6 +15,5 @@ export const UserProvider = ({ children }) => {
       : user,
   );
   const value = useMemo(() => ({ currentUser, setCurrentUser }), [currentUser]);
-
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };

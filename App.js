@@ -18,14 +18,14 @@ const ApplicationNavigation = () => {
 
   return currentUser ? (
     <Stack.Navigator>
+      <Stack.Screen name="Home" component={HomeScreen} />
+    </Stack.Navigator>
+  ) : (
+    <Stack.Navigator>
       <Stack.Screen name="Landing" component={LandingScreen} />
       <Stack.Screen name="Signup" component={SignupScreen} options={{ title: 'Sign Up' }} />
       <Stack.Screen name="Signin" component={SigninScreen} options={{ title: 'Sign In' }} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
-    </Stack.Navigator>
-  ) : (
-    <Stack.Navigator>
-      <Stack.Screen name="Home" component={HomeScreen} />
     </Stack.Navigator>
   );
 };

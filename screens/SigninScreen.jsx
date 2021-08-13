@@ -33,9 +33,10 @@ export default function SigninScreen({ navigation }) {
 
   useEffect(() => {
     if (user?.user) {
-      setCurrentUser({ email: user.user.email, uid: user.user.uid });
+      const { uid, email } = user.user;
+      setCurrentUser({ email, uid });
     }
-  }, [user?.user]);
+  }, [user]);
 
   if (error?.message) {
     Alert.alert(error.message);
