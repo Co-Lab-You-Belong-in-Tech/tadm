@@ -21,13 +21,38 @@ export default function HomeScreen({ navigation }) {
   useEffect(() => {
     const unsubscribe = usersRef.doc(currentUser.uid).onSnapshot((res) => {
       setProfile(res.data());
+      if (res.data().buddyId) {
+        // console.log('yes!')
+      }
     });
     return () => unsubscribe();
   }, []);
 
-  function handlePress(date) {
-    // setProfile({...profile, goalHistory: [...goalHistory, date]})
-  }
+  // useEffect ( () => {
+  //   console.log(profile)
+  // }, [profile])
+
+  function handlePress (date) {
+    usersRef.doc(currentUser.uid).get().then( res => {
+        if (!res.data().goalHistory) {
+          setProfile({...profile, goalHistory: [date]})
+          usersRef.doc(currentUser.uid).update({
+            goalHistory: [date],
+          })
+        }
+        else if (res.data().goalHistory.find(item => item === date)) {
+            setProfile({...profile, goalHistory: profile.goalHistory.filter(item => item !== date)})
+            usersRef.doc(currentUser.uid).update({
+                goalHistory: res.data().goalHistory.filter(item => item !== date)
+            })
+        } else {
+            setProfile({...profile, goalHistory: [...profile.goalHistory, date]})
+            usersRef.doc(currentUser.uid).update({
+                goalHistory: [...res.data().goalHistory, date],
+            })
+        }
+    })
+}
 
   return (
     <View style={styles.wrapper}>
@@ -37,11 +62,9 @@ export default function HomeScreen({ navigation }) {
         <View style={styles.topView}>
           {goalDates.map((item, idx) => (
             <View key={idx} style={styles.topViews}>
-              <Button
-                style={styles.touchable}
-                title={item.split('/')[0] + '/' + item.split('/')[1]}
-                onPress={() => handlePress(item)}>
-              </Button>
+              <TouchableOpacity style={[styles.touchable, profile.goalHistory?.includes(item) && styles.completed]} onPress={() => handlePress(item)}>
+                <Text style={[styles.touchableText, profile.goalHistory?.includes(item) && {color: 'white'}]} >{item.split('/')[0] + '/' + item.split('/')[1]}</Text>
+              </TouchableOpacity>
             </View>
           ))}
         </View>
@@ -112,18 +135,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   topViews: {
-    display: 'flex',
     backgroundColor: '#f1f1f1',
-    width: 50,
-    height: 50,
     borderRadius: 30,
     margin: 2,
-    justifyContent: 'center',
+  },
+  completed: {
+    backgroundColor: 'green',
+    borderRadius: 30,
   },
   touchable: {
-    width: 100,
-    height: 100,
-    color: 'black',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 50,
+    height: 50,
+  },
+  touchableText: {
+    color: 'gray',
   },
   middle: {
     alignItems: 'center',
