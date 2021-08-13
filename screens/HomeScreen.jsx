@@ -14,17 +14,17 @@ function getDate(offset) {
 const goalDates = [6, 5, 4, 3, 2, 1, 0].map((item) => getDate(item));
 
 export default function HomeScreen({ navigation }) {
-  const currentUser = useCurrentUser();
+  const { currentUser } = useCurrentUser();
   const [profile, setProfile] = useState({});
   const [buddyProfile, setBuddyProfile] = useState({});
   const date = new Date().toLocaleDateString();
 
   useEffect(() => {
-    const unsubscribe = usersRef.doc(currentUser.uid).onSnapshot((res) => {
+    const unsubscribe = usersRef.doc(currentUser?.uid).onSnapshot((res) => {
       setProfile(res.data());
       //need to figure out how to add buddy profile
     });
-    return () => unsubscribe();
+    return unsubscribe;
   }, []);
 
   useEffect(() => {}, [buddyProfile]);
@@ -53,7 +53,8 @@ export default function HomeScreen({ navigation }) {
             goalHistory: [...res.data().goalHistory, date],
           });
         }
-      });
+      })
+      .catch(console.log);
   }
 
   return (
@@ -65,12 +66,12 @@ export default function HomeScreen({ navigation }) {
           {goalDates.map((item, idx) => (
             <View key={idx} style={styles.topViews}>
               <TouchableOpacity
-                style={[styles.touchable, profile.goalHistory?.includes(item) && styles.completed]}
+                style={[styles.touchable, profile?.goalHistory?.includes(item) && styles.completed]}
                 onPress={() => handlePress(item)}>
                 <Text
                   style={[
                     styles.touchableText,
-                    profile.goalHistory?.includes(item) && { color: 'white' },
+                    profile?.goalHistory?.includes(item) && { color: 'white' },
                   ]}>
                   {item.split('/')[0] + '/' + item.split('/')[1]}
                 </Text>

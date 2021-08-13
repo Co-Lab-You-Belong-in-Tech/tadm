@@ -5,7 +5,6 @@ import { CheckBox } from 'react-native-elements';
 import * as yup from 'yup';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { auth, createUserProfileDocument } from '../utils/firebase';
-import useCurrentUser from '../hooks/useCurrentUser';
 import InputField from '../components/InputField';
 import CustomButton from '../components/CustomButton';
 import PasswordInput from '../components/PasswordInput';
@@ -24,8 +23,6 @@ const validationSchema = yup.object().shape({
 });
 
 export default function SignupScreen({ navigation }) {
-  const currentUser = useCurrentUser();
-
   const [createUserWithEmailAndPassword, registereduser, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
 
@@ -33,17 +30,16 @@ export default function SignupScreen({ navigation }) {
     initialValues: defaultFormValues,
     validationSchema,
     onSubmit: (values) => {
-      createUserWithEmailAndPassword(values.email, values.password)
-      .then(() => navigation.navigate('Profile'))
-      .catch((err) => console.error(err));
+      createUserWithEmailAndPassword(values.email, values.password);
     },
   });
 
   useEffect(() => {
-    if (currentUser) {
-      navigation.navigate('Home');
+    if (registereduser?.user) {
+      createUserProfileDocument(registereduser.user);
+      navigation.navigate('Profile', { user: registereduser.user });
     }
-  }, []);
+  }, [registereduser?.user]);
 
   if (error?.message) {
     Alert.alert(error.message);
