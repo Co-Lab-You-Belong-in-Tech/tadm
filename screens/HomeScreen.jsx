@@ -20,10 +20,11 @@ export default function HomeScreen({ navigation }) {
   const date = new Date().toLocaleDateString();
 
   useEffect(() => {
-    usersRef.doc(currentUser?.uid).onSnapshot((res) => {
+    const unsubscribe = usersRef.doc(currentUser?.uid).onSnapshot((res) => {
       setProfile(res.data());
       //need to figure out how to add buddy profile
     });
+    return unsubscribe;
   }, []);
 
   useEffect(() => {}, [buddyProfile]);
@@ -52,7 +53,8 @@ export default function HomeScreen({ navigation }) {
             goalHistory: [...res.data().goalHistory, date],
           });
         }
-      });
+      })
+      .catch(console.log);
   }
 
   return (
