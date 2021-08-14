@@ -63,6 +63,7 @@ export default function SignupScreen({ navigation }) {
         value={values.email}
         onChangeText={handleChange('email')}
         type="emailAddress"
+        autoCapitalize="none"
       />
       <PasswordInput
         value={values.password}
