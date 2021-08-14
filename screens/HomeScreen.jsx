@@ -26,7 +26,7 @@ export default function HomeScreen({ navigation }) {
       setProfile(data);
       if (data?.buddyId) {
         usersRef
-          .doc(profile.buddyId)
+          .doc(data.buddyId)
           .get()
           .then((res) => {
             setBuddyProfile(res.data());
