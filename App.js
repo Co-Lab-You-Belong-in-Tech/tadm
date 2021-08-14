@@ -45,6 +45,7 @@ function HomeTabNavigation() {
         tabBarActiveTintColor: 'tomato',
         tabBarInactiveTintColor: 'gray',
         tabBarShowLabel: false,
+        tabBarActiveTintColor: 'tomato',
         tabBarStyle: {
           height: 100,
         }
