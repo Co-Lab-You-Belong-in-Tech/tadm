@@ -22,20 +22,16 @@ export default function HomeScreen({ navigation }) {
   useEffect(() => {
     const unsubscribe = usersRef.doc(currentUser?.uid).onSnapshot((res) => {
       setProfile(res.data());
-      //need to figure out how to add buddy profile
+      if (res.data().buddyId) {
+        usersRef.doc(profile.buddyId).get().then(res => {
+          setBuddyProfile(res.data())
+        })
+      }
     });
     return unsubscribe;
   }, []);
 
-  useEffect(() => {
-    console.log()
-    if (profile.buddyId) {
-      console.log(profile.buddyId)
-      usersRef.doc(profile.buddyId).get().then(res => {
-        setBuddyProfile(res.data())
-      })
-    }
-  }, [profile]);
+  useEffect(() => {}, [profile]);
 
   function handlePress(date) {
     usersRef
