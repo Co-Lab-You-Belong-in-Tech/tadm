@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity, Button } from 'react-native';
 import useCurrentUser from '../hooks/useCurrentUser';
+import randomQuote from '../utils/quotes';
 import { db } from '../utils/firebase';
 const usersRef = db.collection('users');
 
 function getDate(offset) {
   let today = new Date();
-  let yesterday = new Date();
-  yesterday.setDate(today.getDate() - offset);
-  return yesterday.toLocaleDateString();
+  let toDate = new Date();
+  toDate.setDate(today.getDate() - offset);
+  return toDate.toLocaleDateString();
 }
 
 const goalDates = [6, 5, 4, 3, 2, 1, 0].map((item) => getDate(item));
@@ -22,12 +23,16 @@ export default function HomeScreen({ navigation }) {
   useEffect(() => {
     const unsubscribe = usersRef.doc(currentUser?.uid).onSnapshot((res) => {
       setProfile(res.data());
-      //need to figure out how to add buddy profile
+      if (res.data().buddyId) {
+        usersRef.doc(profile.buddyId).get().then(res => {
+          setBuddyProfile(res.data())
+        })
+      }
     });
     return unsubscribe;
   }, []);
 
-  useEffect(() => {}, [buddyProfile]);
+  useEffect(() => {}, [profile]);
 
   function handlePress(date) {
     usersRef
@@ -57,6 +62,8 @@ export default function HomeScreen({ navigation }) {
       .catch(console.log);
   }
 
+  let matched = Object.keys(buddyProfile || {}).length
+
   return (
     <View style={styles.wrapper}>
       <Text style={styles.aboveTopText}>Weekly Goal </Text>
@@ -80,17 +87,31 @@ export default function HomeScreen({ navigation }) {
           ))}
         </View>
       </View>
-
       <View style={styles.middle}>
-        <Text style={styles.middleText}>Break your goal into smaller pieces. </Text>
+        <Text style={styles.middleText}>{randomQuote()} </Text>
       </View>
-
       <Text style={styles.aboveBottomText}>Partner's Weekly Goal </Text>
       <View style={styles.bottom}>
-        <View style={buddyProfile.size ? styles.bottomMatched : styles.bottomUnMatched}>
-          <Text style={styles.bottomUnMatchedText}>
-            {buddyProfile.size ? buddyProfile.goal : 'Waiting to match...'}{' '}
+        <View style={matched ? styles.bottomMatched : styles.bottomUnMatched}>
+          <Text style={matched ? styles.bottomMatchedText : styles.bottomUnMatchedText}>
+            {matched ? buddyProfile.goal : 'Waiting to match...'}{' '}
           </Text>
+        </View>
+        <View style={styles.topView}>
+          {goalDates.map((item, idx) => (
+            <View key={idx} style={styles.topViews}>
+              <TouchableOpacity
+                style={[styles.touchable, buddyProfile?.goalHistory?.includes(item) && styles.buddyCompleted]}>
+                <Text
+                  style={[
+                    styles.touchableText,
+                    buddyProfile?.goalHistory?.includes(item) && { color: 'white' },
+                  ]}>
+                  {item.split('/')[0] + '/' + item.split('/')[1]}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          ))}
         </View>
       </View>
     </View>
@@ -147,6 +168,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'green',
     borderRadius: 30,
   },
+  buddyCompleted: {
+    backgroundColor: 'orange',
+    borderRadius: 30,
+  },
   touchable: {
     display: 'flex',
     alignItems: 'center',
@@ -192,6 +217,7 @@ const styles = StyleSheet.create({
   bottomMatchedText: {
     fontWeight: 'bold',
     fontSize: 18,
+    color: 'black',
   },
   aboveTopText: {
     fontWeight: 'bold',
