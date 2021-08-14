@@ -64,11 +64,13 @@ export default function SignupScreen({ navigation }) {
         onChangeText={handleChange('email')}
         type="emailAddress"
         autoCapitalize="none"
+        autoCompleteType="email"
       />
       <PasswordInput
         value={values.password}
         onChangeText={handleChange('password')}
         type="newPassword"
+        autoCompleteType="password"
       />
       <CheckBox
         title="I agree to the Terms of Service"
