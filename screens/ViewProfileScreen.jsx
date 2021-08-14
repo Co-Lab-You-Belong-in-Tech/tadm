@@ -27,43 +27,54 @@ export default function ViewProfile({ navigation }) {
 
   return <>
     <Button onPress={() => navigation.goBack()} title="Edit Profile"></Button>
-    <View style={styles.headerText}>
-        <Text>Your Goal</Text>
-    </View>
-    <View style={styles.goal}>
-        <Text>{profile.goal}</Text>
-    </View>
-    <View style={styles.headerText}>
-        <Text>Your Bio</Text>
-    </View>
-    <View style={styles.bio}>
-        <Text>{profile.bio}</Text>
-    </View>
-    <View style={styles.headerText}>
-        <Text>Your Occupation</Text>
-    </View>
-    <View style={styles.occupation}>
-        <Text>{profile.occupation}</Text>
-    </View>
-    <View style={styles.headerText}>
-        <Text>Your Gender</Text>
-    </View>
-    <View style={styles.gender}>
-        <Text>{profile.gender}</Text>
+    <View style={styles.container}>
+      <View style={styles.section}>
+        <View style={styles.header}>
+            <Text style={styles.headerText}>Bio</Text>
+        </View>
+        <View style={styles.body}>
+            <Text style={styles.bodyText}>{profile.bio}</Text>
+        </View>
+      </View>
+      <View style={styles.section}>
+        <View style={styles.header}>
+            <Text style={styles.headerText}>Weekly Goal</Text>
+        </View>
+        <View style={styles.body}>
+            <Text style={styles.bodyText}>{profile.goal}</Text>
+        </View> 
+      </View>
+
+      <View style={styles.section}>
+        <View style={styles.header}>
+            <Text style={styles.headerText}>Occupation</Text>
+        </View>
+        <View style={styles.body}>
+            <Text style={styles.bodyText}>{profile.occupation}</Text>
+        </View>
+      </View>
     </View>
   </>
 }
 
 const styles = StyleSheet.create({
   container: {
+    display: 'flex',
+    justifyContent: 'center',
     flex: 1,
-    padding: 20,
   },
   button: {
     borderRadius: 10,
     padding: 20,
   },
-  mainButton: {
-    backgroundColor: 'gray',
+  headerText: {
+    fontSize: 30,
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+  bodyText: {
+    fontSize: 25,
+    textAlign: 'center',
+    marginBottom: 50,
   },
 });
