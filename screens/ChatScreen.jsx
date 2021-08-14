@@ -13,33 +13,21 @@ export default function Chat({ navigation }) {
   const [buddyProfile, setBuddyProfile] = useState({});
 
   useEffect(() => {
-    const unsubscribe = usersRef.doc(currentUser?.uid).onSnapshot((res) => {
-      const data = res.data();
-      setProfile(data);
-      if (data?.buddyId) {
-        usersRef
-          .doc(data.buddyId)
-          .get()
-          .then((res) => {
-            setBuddyProfile(res.data());
-          });
-      }
-    });
-    return unsubscribe;
-  }, []);
-
-  useEffect(() => {
     const unsubscribe = messagesRef.orderBy('createdAt', 'desc').onSnapshot((res) => {
-      setMessages(
-        res.docs.filter(doc => {
-          return doc.data().user._id === currentUser.uid || doc.data().user._id === profile.buddyId
-        }).map(doc => ({
-          _id: doc.data()._id,
-          createdAt: doc.data().createdAt.toDate(),
-          text: doc.data().text,
-          user: doc.data().user,
-        }))
-      )
+      usersRef.doc(currentUser?.uid).get().then((user) => {
+        const data = user.data();
+        setProfile(data)
+        setMessages(
+          res.docs.filter(doc => {
+            return doc.data().user._id === currentUser.uid || doc.data().user._id === user.data().buddyId
+          }).map(doc => ({
+            _id: doc.data()._id,
+            createdAt: doc.data().createdAt.toDate(),
+            text: doc.data().text,
+            user: doc.data().user,
+          }))
+        )
+      });
     });
     return unsubscribe;
   }, []);
