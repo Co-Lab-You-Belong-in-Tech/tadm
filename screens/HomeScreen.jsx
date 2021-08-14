@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity, Button } from 'react-native';
 import useCurrentUser from '../hooks/useCurrentUser';
+import randomQuote from '../utils/quotes';
 import { db } from '../utils/firebase';
 const usersRef = db.collection('users');
 
@@ -61,7 +62,7 @@ export default function HomeScreen({ navigation }) {
       .catch(console.log);
   }
 
-  let matched = Object.keys(buddyProfile).length
+  let matched = Object.keys(buddyProfile || {}).length
 
   return (
     <View style={styles.wrapper}>
@@ -87,7 +88,7 @@ export default function HomeScreen({ navigation }) {
         </View>
       </View>
       <View style={styles.middle}>
-        <Text style={styles.middleText}>Break your goal into smaller pieces. </Text>
+        <Text style={styles.middleText}>{randomQuote()} </Text>
       </View>
       <Text style={styles.aboveBottomText}>Partner's Weekly Goal </Text>
       <View style={styles.bottom}>
@@ -100,7 +101,7 @@ export default function HomeScreen({ navigation }) {
           {goalDates.map((item, idx) => (
             <View key={idx} style={styles.topViews}>
               <TouchableOpacity
-                style={[styles.touchable, buddyProfile?.goalHistory?.includes(item) && styles.completed]}>
+                style={[styles.touchable, buddyProfile?.goalHistory?.includes(item) && styles.buddyCompleted]}>
                 <Text
                   style={[
                     styles.touchableText,
@@ -165,6 +166,10 @@ const styles = StyleSheet.create({
   },
   completed: {
     backgroundColor: 'green',
+    borderRadius: 30,
+  },
+  buddyCompleted: {
+    backgroundColor: 'orange',
     borderRadius: 30,
   },
   touchable: {
