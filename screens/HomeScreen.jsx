@@ -22,11 +22,15 @@ export default function HomeScreen({ navigation }) {
 
   useEffect(() => {
     const unsubscribe = usersRef.doc(currentUser?.uid).onSnapshot((res) => {
-      setProfile(res.data());
-      if (res.data().buddyId) {
-        usersRef.doc(profile.buddyId).get().then(res => {
-          setBuddyProfile(res.data())
-        })
+      const data = res.data();
+      setProfile(data);
+      if (data?.buddyId) {
+        usersRef
+          .doc(profile.buddyId)
+          .get()
+          .then((res) => {
+            setBuddyProfile(res.data());
+          });
       }
     });
     return unsubscribe;
@@ -62,7 +66,7 @@ export default function HomeScreen({ navigation }) {
       .catch(console.log);
   }
 
-  let matched = Object.keys(buddyProfile || {}).length
+  let matched = Object.keys(buddyProfile || {}).length;
 
   return (
     <View style={styles.wrapper}>
@@ -101,7 +105,10 @@ export default function HomeScreen({ navigation }) {
           {goalDates.map((item, idx) => (
             <View key={idx} style={styles.topViews}>
               <TouchableOpacity
-                style={[styles.touchable, buddyProfile?.goalHistory?.includes(item) && styles.buddyCompleted]}>
+                style={[
+                  styles.touchable,
+                  buddyProfile?.goalHistory?.includes(item) && styles.buddyCompleted,
+                ]}>
                 <Text
                   style={[
                     styles.touchableText,
