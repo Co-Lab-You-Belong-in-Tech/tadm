@@ -55,13 +55,13 @@ export default function ProfileScreen({ route }) {
         label="Your Name"
         value={values.name}
         onChangeText={handleChange('name')}
-        autoCapitalize="word"
+        autoCapitalize="words"
       />
       <InputField
         label="Brief Bio"
         value={values.bio}
         onChangeText={handleChange('bio')}
-        autoCapitalize="sentence"
+        autoCapitalize="sentences"
         multiline
       />
       <InputField label="Your Goal" value={values.goal} onChangeText={handleChange('goal')} />

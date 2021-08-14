@@ -51,11 +51,13 @@ export default function SigninScreen({ navigation }) {
         onChangeText={handleChange('email')}
         type="emailAddress"
         autoCapitalize="none"
+        autoCompleteType="email"
       />
       <PasswordInput
         value={values.password}
         onChangeText={handleChange('password')}
         type="password"
+        autoCompleteType="password"
       />
       <Text>
         Don't have an account yet?{' '}
