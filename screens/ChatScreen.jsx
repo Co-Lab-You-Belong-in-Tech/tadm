@@ -31,7 +31,9 @@ export default function Chat({ navigation }) {
   useEffect(() => {
     const unsubscribe = messagesRef.orderBy('createdAt', 'desc').onSnapshot((res) => {
       setMessages(
-        res.docs.map(doc => ({
+        res.docs.filter(doc => {
+          return doc.data().user._id === currentUser.uid || doc.data().user._id === profile.buddyId
+        }).map(doc => ({
           _id: doc.data()._id,
           createdAt: doc.data().createdAt.toDate(),
           text: doc.data().text,

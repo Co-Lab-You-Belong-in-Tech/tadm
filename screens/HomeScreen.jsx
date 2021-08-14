@@ -94,7 +94,7 @@ export default function HomeScreen({ navigation }) {
       <View style={styles.middle}>
         <Text style={styles.middleText}>Do the one thing that would make you satisfied with your day</Text>
       </View>
-      <Text style={styles.aboveBottomText}>Partner's Weekly Goal </Text>
+      <Text style={styles.aboveBottomText}>{buddyProfile?.name || Partner}'s Weekly Goal </Text>
       <View style={styles.bottom}>
         <View style={matched ? styles.bottomMatched : styles.bottomUnMatched}>
           <Text style={matched ? styles.bottomMatchedText : styles.bottomUnMatchedText}>
