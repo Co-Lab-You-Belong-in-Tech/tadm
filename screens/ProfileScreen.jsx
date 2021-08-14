@@ -51,11 +51,17 @@ export default function ProfileScreen({ route }) {
       <View>
         <ImagePicker image={image} setImage={setImage} />
       </View>
-      <InputField label="Your Name" value={values.name} onChangeText={handleChange('name')} />
+      <InputField
+        label="Your Name"
+        value={values.name}
+        onChangeText={handleChange('name')}
+        autoCapitalize="word"
+      />
       <InputField
         label="Brief Bio"
         value={values.bio}
         onChangeText={handleChange('bio')}
+        autoCapitalize="sentence"
         multiline
       />
       <InputField label="Your Goal" value={values.goal} onChangeText={handleChange('goal')} />
