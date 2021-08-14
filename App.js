@@ -44,10 +44,14 @@ function HomeTabNavigation() {
         headerShown: false,
         tabBarActiveTintColor: 'tomato',
         tabBarInactiveTintColor: 'gray',
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          height: 100,
+        }
       }}>
       <Tab.Screen name="Chat" component={ChatScreen} 
       options={{
-        tabBarIcon: () => <Icon imgSrc={icons.chat}/>
+        tabBarIcon: () => <Icon imgSrc={icons.chat}/>,
       }}/>
       <Tab.Screen name="HomeScreen" component={HomeScreen}       
       options={{
@@ -71,11 +75,9 @@ export default function App() {
   );
 }
 
-
-
 function Icon ({ imgSrc }) {
   return (
-    <View>
+    <View style={{paddingTop: 20}}>
       <Image 
         source={imgSrc}
         resizeMode="contain"
