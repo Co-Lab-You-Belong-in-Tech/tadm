@@ -26,7 +26,7 @@ export default function HomeScreen({ navigation }) {
       setProfile(data);
       if (data?.buddyId) {
         usersRef
-          .doc(profile.buddyId)
+          .doc(data.buddyId)
           .get()
           .then((res) => {
             setBuddyProfile(res.data());
@@ -92,7 +92,7 @@ export default function HomeScreen({ navigation }) {
         </View>
       </View>
       <View style={styles.middle}>
-        <Text style={styles.middleText}>{randomQuote()} </Text>
+        <Text style={styles.middleText}>Do the one thing that would make you satisfied with your day</Text>
       </View>
       <Text style={styles.aboveBottomText}>Partner's Weekly Goal </Text>
       <View style={styles.bottom}>
