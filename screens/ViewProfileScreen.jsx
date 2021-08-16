@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, Button } from 'react-native';
+import { View, StyleSheet, Text, Button, TouchableWithoutFeedbackBase } from 'react-native';
 import useCurrentUser from '../hooks/useCurrentUser';
 import { db } from '../utils/firebase';
 const usersRef = db.collection('users');
@@ -58,6 +58,14 @@ export default function ViewProfile({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  section: {
+    borderRadius: 10,
+    margin: 20,
+    marginLeft: 40,
+    marginRight: 40,
+    padding: 20,
+    backgroundColor: 'white',
+  },
   container: {
     display: 'flex',
     justifyContent: 'center',
@@ -69,12 +77,11 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 30,
-    textAlign: 'center',
     marginBottom: 10,
+    fontWeight: 'bold',
   },
   bodyText: {
     fontSize: 25,
-    textAlign: 'center',
     marginBottom: 50,
   },
 });
