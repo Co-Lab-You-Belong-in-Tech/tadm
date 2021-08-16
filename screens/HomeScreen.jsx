@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity, Button } from 'react-native';
 import useCurrentUser from '../hooks/useCurrentUser';
 import randomQuote from '../utils/quotes';
@@ -20,13 +20,13 @@ export default function HomeScreen({ navigation }) {
   const [buddyProfile, setBuddyProfile] = useState({});
   const date = new Date().toLocaleDateString();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const unsubscribe = usersRef.doc(currentUser?.uid).onSnapshot((res) => {
       const data = res.data();
       setProfile(data);
       if (data?.buddyId) {
         usersRef
-          .doc(profile.buddyId)
+          .doc(data.buddyId)
           .get()
           .then((res) => {
             setBuddyProfile(res.data());
@@ -92,9 +92,9 @@ export default function HomeScreen({ navigation }) {
         </View>
       </View>
       <View style={styles.middle}>
-        <Text style={styles.middleText}>{randomQuote()} </Text>
+        <Text style={styles.middleText}>Do the one thing that would make you satisfied with your day</Text>
       </View>
-      <Text style={styles.aboveBottomText}>Partner's Weekly Goal </Text>
+      <Text style={styles.aboveBottomText}>{buddyProfile?.name || 'Partner'}'s Weekly Goal </Text>
       <View style={styles.bottom}>
         <View style={matched ? styles.bottomMatched : styles.bottomUnMatched}>
           <Text style={matched ? styles.bottomMatchedText : styles.bottomUnMatchedText}>
