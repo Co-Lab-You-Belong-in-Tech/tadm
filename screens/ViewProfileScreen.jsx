@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, Button, TouchableWithoutFeedbackBase } from 'react-native';
+import { View, StyleSheet, Text, Button } from 'react-native';
 import useCurrentUser from '../hooks/useCurrentUser';
 import { db } from '../utils/firebase';
 const usersRef = db.collection('users');
