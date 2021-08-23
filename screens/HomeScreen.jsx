@@ -75,14 +75,14 @@ export default function HomeScreen({ navigation }) {
         <Text style={styles.topText}>Goal of the Week </Text>
         <Text style={styles.topTextSecond}> {profile?.goal || 'insert goal here'} </Text>
         <View style={styles.topView}>
-          {goalDates.map((item, idx) => (<View style={styles.checkboxContainer}>
+          {goalDates.map((item, idx) => (<View key={idx} style={styles.checkboxContainer}>
                 <Text style={{color: '#FFABAB'}}>
                   {item.day}
                 </Text>
                 <Text style={{color: 'white', fontWeight: 'bold'}}>
                   {item.date.split('/')[1]}
                 </Text>
-            <View key={idx} style={styles.topViews}>
+            <View  style={styles.topViews}>
               <TouchableOpacity
                 style={[styles.touchable, profile?.goalHistory?.includes(item.date) && styles.completed]}
                 onPress={() => handlePress(item.date)}>
@@ -95,14 +95,14 @@ export default function HomeScreen({ navigation }) {
         <Text style={styles.middleText}>Do the one thing that would make you satisfied with your day</Text>
       </View>
       <View style={styles.bottom}>
-        <Text style={styles.topText}>{buddyProfile?.name || 'Partner'}'s Weekly Goal </Text>
-        <View style={matched ? styles.bottomMatched : styles.bottomUnMatched}>
+        <Text style={styles.bottomText}>{buddyProfile?.name || 'Partner'}'s Goal of the Week </Text>
+        {matched ? <Text style={styles.bottomTextSecond}> {buddyProfile.goal} </Text> : <View style={matched ? styles.bottomMatched : styles.bottomUnMatched}>
           <Text style={matched ? styles.bottomMatchedText : styles.bottomUnMatchedText}>
-            {matched ? buddyProfile.goal : 'Waiting to match...'}{' '}
+            {'Waiting to match...'}{' '}
           </Text>
-        </View>
+        </View>}
         <View style={styles.topView}>
-          {goalDates.map((item, idx) => (<View style={styles.checkboxContainer}>
+          {goalDates.map((item, idx) => (<View key={idx} style={styles.checkboxContainer}>
                 <Text style={{color: '#FFABAB'}}>
                   {item.day}
                 </Text>
@@ -111,8 +111,7 @@ export default function HomeScreen({ navigation }) {
                 </Text>
             <View key={idx} style={styles.topViews}>
               <TouchableOpacity
-                style={[styles.touchable, buddyProfile?.goalHistory?.includes(item.date) && styles.buddyCompleted]}
-                onPress={() => handlePress(item.date)}>
+                style={[styles.touchable, buddyProfile?.goalHistory?.includes(item.date) && styles.buddyCompleted]}>
               </TouchableOpacity>
             </View>
           </View>))}
@@ -203,18 +202,17 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 20,
     borderRadius: 15,
-    flex: 0.3,
+    flex: 0.2,
   },
   bottom: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: 'black',
     marginBottom: 20,
     marginLeft: 20,
     marginRight: 20,
     borderRadius: 15,
-    flex: 0.9,
+    flex: 0.7,
   },
   bottomUnMatched: {
     alignItems: 'center',
@@ -225,18 +223,25 @@ const styles = StyleSheet.create({
     width: 400,
     flex: 0.5,
   },
+  bottomMatched: {
+    alignItems: 'flex-start',
+    flex: 0.5,
+  },
   bottomUnMatchedText: {
     fontWeight: 'bold',
     color: 'white',
     fontSize: 30,
   },
   bottomMatchedText: {
-    fontWeight: 'bold',
+    marginTop: 10,
+    marginLeft: 20,
+    marginRight: 20,
     fontSize: 18,
-    color: 'black',
+    color: 'white',
   },
   topText: {
     fontWeight: 'bold',
+    paddingTop: 20,
     marginTop: 10,
     marginLeft: 20,
     marginRight: 20,
@@ -246,6 +251,18 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
   },
   topTextSecond: {
+    marginTop: 15,
+    marginLeft: 20,
+    marginRight: 20,
+    fontSize: 18,
+    color: 'white',
+    textAlign: 'left',
+    alignSelf: 'stretch',
+    flex: .4,
+  },
+  bottomText: {
+    fontWeight: 'bold',
+    paddingTop: 20,
     marginTop: 10,
     marginLeft: 20,
     marginRight: 20,
@@ -254,10 +271,19 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     alignSelf: 'stretch',
   },
+  bottomTextSecond: {
+    marginTop: 15,
+    marginLeft: 20,
+    marginRight: 20,
+    fontSize: 18,
+    color: 'white',
+    textAlign: 'left',
+    alignSelf: 'stretch',
+    flex: .4,
+  },
   middleText: {
     fontWeight: 'bold',
     fontSize: 18,
-    // color: 'white',
   },
   aboveBottomText: {
     fontWeight: 'bold',
@@ -265,10 +291,6 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     fontSize: 14,
     textAlign: 'center',
-  },
-  bottomText: {
-    fontWeight: 'bold',
-    fontSize: 24,
   },
   homeImg: {
     resizeMode: 'contain',
