@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View, Image, Text } from 'react-native';
+import { Provider } from 'react-redux'
 // Screens
 import HomeScreen from './screens/HomeScreen';
 import ProfileScreen from './screens/ProfileScreen';
@@ -15,6 +16,8 @@ import ChatScreen from './screens/ChatScreen';
 import { UserProvider } from './contexts/UserContext';
 import useCurrentUser from './hooks/useCurrentUser';
 import { icons } from './utils/icons.js'
+import { store } from './utils/store'
+
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -67,11 +70,13 @@ function HomeTabNavigation() {
 
 export default function App() {
   return (
+    <Provider store={store}>
     <UserProvider>
       <NavigationContainer>
         <ApplicationNavigation />
       </NavigationContainer>
     </UserProvider>
+    </Provider>
   );
 }
 
