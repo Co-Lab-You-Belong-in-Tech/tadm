@@ -45,22 +45,21 @@ function HomeTabNavigation() {
         tabBarActiveTintColor: 'tomato',
         tabBarInactiveTintColor: 'gray',
         tabBarShowLabel: false,
-        tabBarActiveTintColor: 'tomato',
         tabBarStyle: {
           height: 100,
         }
       }}>
       <Tab.Screen name="Chat" component={ChatScreen} 
       options={{
-        tabBarIcon: () => <Icon imgSrc={icons.chat}/>,
+        tabBarIcon: ({focused}) => <Icon imgSrc={focused ? icons.chatFocused : icons.chat}/>,
       }}/>
       <Tab.Screen name="HomeScreen" component={HomeScreen}       
       options={{
-        tabBarIcon: () => <Icon imgSrc={icons.home}/>
+        tabBarIcon: ({focused}) => <Icon imgSrc={focused ? icons.homeFocused : icons.home}/>,
       }}/>
       <Tab.Screen name="ViewProfile" component={ViewProfileScreen} 
       options={{
-        tabBarIcon: () => <Icon imgSrc={icons.profile}/>
+        tabBarIcon: ({focused}) => <Icon imgSrc={focused ? icons.profileFocused : icons.profile}/>,
       }}/>
     </Tab.Navigator>
   );
