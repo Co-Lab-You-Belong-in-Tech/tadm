@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View, Text, Alert } from 'react-native';
+import { StyleSheet, View, Text, Alert, TouchableOpacity } from 'react-native';
 import { useFormik } from 'formik';
 import { CheckBox } from 'react-native-elements';
 import * as yup from 'yup';
@@ -54,7 +54,7 @@ export default function SignupScreen({ navigation }) {
       </View>
     );
   }
-
+  
   return (
     <View style={styles.container}>
       <Intro title="Let’s get started!" description="Create an account so we can get you matched" />
@@ -72,6 +72,12 @@ export default function SignupScreen({ navigation }) {
         type="newPassword"
         autoCompleteType="password"
       />
+      <View style={{display: 'flex', flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
+        <Text>Already have an account?{'  '}</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Signin')}>
+          <Text style={{textDecorationLine: 'underline'}}>Log in</Text> 
+        </TouchableOpacity>
+      </View>
       <CheckBox
         title="I agree to the Terms of Service"
         checked={values.tos}
@@ -81,15 +87,18 @@ export default function SignupScreen({ navigation }) {
         textStyle={styles.checkboxText}
         onPress={() => handleChange('tos')({ target: { value: !values.tos } })}
       />
-      <CustomButton onPress={handleSubmit} title="Sign Up" />
+      <CustomButton onPress={handleSubmit} title="Sign Up" style={styles.button} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  intro: {
+    marginTop: 60,
+  },
   container: {
     flex: 1,
-    padding: 20,
+    padding: 30,
     backgroundColor: 'white',
   },
   checkBoxContainer: {
@@ -97,4 +106,7 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
   },
   checkboxText: { fontWeight: '400' },
+  button: {
+    marginBottom: 100,
+  }
 });
