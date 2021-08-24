@@ -12,12 +12,19 @@ export default function CustomOnboardingButton({ title, onPress, style, ...other
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#FFD7D7',
     borderWidth: 1,
     borderRadius: 10,
     width: '100%',
     color: '#111',
     padding: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+        width: 0,
+        height: 1,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 1,
+    elevation: 2,
   },
   text: {
     textAlign: 'center',
