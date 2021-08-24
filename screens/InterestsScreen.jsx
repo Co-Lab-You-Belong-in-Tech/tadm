@@ -76,7 +76,7 @@ export default function PersonalityScreen({ navigation }) {
             <View style={{flex: 1, display: 'flex', justifyContent: 'flex-end'}}>
                 <CustomIconButton
                 title="➔"
-                onPress={() => name && navigation.navigate('Distractions')}
+                onPress={() => name && navigation.navigate('ProfilePic')}
                 style={[styles.mainButton]}
                 />
             </View>

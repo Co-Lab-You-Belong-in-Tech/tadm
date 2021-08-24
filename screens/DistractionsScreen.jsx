@@ -87,7 +87,7 @@ export default function DistractionsScreen({ navigation }) {
             <View style={{flex: 1, display: 'flex', justifyContent: 'flex-end'}}>
                 <CustomIconButton
                 title="➔"
-                onPress={() => name && navigation.navigate('Interests')}
+                onPress={() => navigation.navigate('MainGoal')}
                 style={[styles.mainButton]}
                 />
             </View>

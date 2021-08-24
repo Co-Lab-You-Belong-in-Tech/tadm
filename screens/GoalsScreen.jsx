@@ -7,19 +7,18 @@ import useCurrentUser from '../hooks/useCurrentUser';
 
 
 
-export default function BioScreen({ navigation }) {
+export default function GoalsScreen({ navigation }) {
     [name, setName] = useState('')
 
     return (
         <View style={{ backgroundColor: 'white', padding: 30, flex: 1, }}>
             <Intro
-                title="Tell us a bit about yourself" description="What would you like your partner to know about you?"
+                title="What would you like to accomplish right now?" description="In a sentence or two, describe your most important priority for the week"
             />
             <TextInput
                 label="Your Name"
                 value={name}
                 onChangeText={(text) => setName(text)}
-                autoCapitalize="words"
                 style={styles.input}
                 placeholder="Description"
                 multiline
