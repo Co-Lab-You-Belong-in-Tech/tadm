@@ -18,68 +18,65 @@ export default function PersonalityScreen({ navigation }) {
     return (
         <View style={{ backgroundColor: 'white', padding: 30, flex: 1 }}>
             <Intro
-                title="Describe yourself" description="Select all that apply"
+                title="What are your interests?" description="Select all that apply"
             />
             <View style={styles.buttons}>
                 <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Active</Text>
+                    <Text style={styles.text}>Reading</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Quiet</Text>
+                    <Text style={styles.text}>Television</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Confident</Text>
+                    <Text style={styles.text}>Music</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Friendly</Text>
+                    <Text style={styles.text}>Gardening</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Mean</Text>
+                    <Text style={styles.text}>Fishing</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Loud</Text>
+                    <Text style={styles.text}>Video Games</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Easy-Going</Text>
+                    <Text style={styles.text}>Walking</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Clever</Text>
+                    <Text style={styles.text}>Golf</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Polite</Text>
+                    <Text style={styles.text}>Shopping</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Happy</Text>
+                    <Text style={styles.text}>Traveling</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Intelligent</Text>
+                    <Text style={styles.text}>Cards</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Patient</Text>
+                    <Text style={styles.text}>Eating</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Boring</Text>
+                    <Text style={styles.text}>Writing</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Sarcastic</Text>
+                    <Text style={styles.text}>Running</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Impulsive</Text>
+                    <Text style={styles.text}>Volunteering</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Sensitive</Text>
+                    <Text style={styles.text}>Dancing</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Clever</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Modest</Text>
+                    <Text style={styles.text}>Biking</Text>
                 </TouchableOpacity>
             </View>
             <View style={{flex: 1, display: 'flex', justifyContent: 'flex-end'}}>
                 <CustomIconButton
                 title="➔"
-                onPress={() => name && navigation.navigate('Interests')}
+                onPress={() => name && navigation.navigate('Distractions')}
                 style={[styles.mainButton]}
                 />
             </View>

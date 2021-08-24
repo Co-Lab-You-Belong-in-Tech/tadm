@@ -16,6 +16,9 @@ import GenderScreen from './screens/GenderScreen';
 import PronounsScreen from './screens/PronounsScreen';
 import PersonalityScreen from './screens/PersonalityScreen';
 import NameScreen from './screens/NameScreen';
+import BioScreen from './screens/BioScreen';
+import InterestsScreen from './screens/InterestsScreen';
+import DistractionsScreen from './screens/DistractionsScreen';
 // Utils
 import { UserProvider } from './contexts/UserContext';
 import useCurrentUser from './hooks/useCurrentUser';
@@ -35,12 +38,15 @@ const ApplicationNavigation = () => {
     </Stack.Navigator>
   ) : (
     <Stack.Navigator>
-      {/* <Stack.Screen name="Landing" component={LandingScreen} />
+      <Stack.Screen name="Landing" component={LandingScreen} />
       <Stack.Screen name="Signup" component={SignupScreen} options={{ title: 'Sign Up' }} />
-      <Stack.Screen name="Signin" component={SigninScreen} options={{ title: 'Sign In' }} /> */}
+      <Stack.Screen name="Signin" component={SigninScreen} options={{ title: 'Sign In' }} />
       <Stack.Screen name="Name" component={NameScreen} />
+      <Stack.Screen name="Bio" component={BioScreen} />
       <Stack.Screen name="Pronouns" component={PronounsScreen} />
       <Stack.Screen name="Personality" component={PersonalityScreen} />
+      <Stack.Screen name="Interests" component={InterestsScreen} />
+      <Stack.Screen name="Distractions" component={DistractionsScreen} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
     </Stack.Navigator>
   );

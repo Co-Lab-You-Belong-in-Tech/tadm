@@ -7,13 +7,13 @@ import useCurrentUser from '../hooks/useCurrentUser';
 
 
 
-export default function NameScreen({ navigation }) {
+export default function BioScreen({ navigation }) {
     [name, setName] = useState('')
 
     return (
         <View style={{ backgroundColor: 'white', padding: 30, flex: 1, }}>
             <Intro
-                title="Let's start with the basics" description="What's your name?"
+                title="Tell us a bit about yourself" description="What would you like your partner to know about you?"
             />
             <TextInput
                 label="Your Name"
@@ -21,12 +21,13 @@ export default function NameScreen({ navigation }) {
                 onChangeText={(text) => setName(text)}
                 autoCapitalize="words"
                 style={styles.input}
-                placeholder="Your name"
+                placeholder="Description"
+                multiline
             />
             <View style={{flex: 1, display: 'flex', justifyContent: 'flex-end'}}>
                 <CustomIconButton
                 title="➔"
-                onPress={() => name && navigation.navigate('Bio')}
+                onPress={() => name && navigation.navigate('Pronouns')}
                 style={[styles.mainButton]}
                 />
             </View>
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
       borderBottomWidth: 3,
       padding: 10,
       marginTop: 20,
-      fontSize: 20,
+      fontSize: 16,
     },
     text: {
       textAlign: 'center',
