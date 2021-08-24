@@ -30,7 +30,7 @@ export default function PronounsScreen({ navigation }) {
 
 const styles = StyleSheet.create({
     button: {
-      backgroundColor: '#FFD7D7',
+      backgroundColor: 'white',
       borderWidth: .5,
       borderRadius: 10,
       width: '100%',

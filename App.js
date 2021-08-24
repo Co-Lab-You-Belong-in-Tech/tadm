@@ -15,6 +15,7 @@ import ChatScreen from './screens/ChatScreen';
 import GenderScreen from './screens/GenderScreen';
 import PronounsScreen from './screens/PronounsScreen';
 import PersonalityScreen from './screens/PersonalityScreen';
+import NameScreen from './screens/NameScreen';
 // Utils
 import { UserProvider } from './contexts/UserContext';
 import useCurrentUser from './hooks/useCurrentUser';
@@ -34,10 +35,10 @@ const ApplicationNavigation = () => {
     </Stack.Navigator>
   ) : (
     <Stack.Navigator>
-      <Stack.Screen name="Landing" component={LandingScreen} />
+      {/* <Stack.Screen name="Landing" component={LandingScreen} />
       <Stack.Screen name="Signup" component={SignupScreen} options={{ title: 'Sign Up' }} />
-      <Stack.Screen name="Signin" component={SigninScreen} options={{ title: 'Sign In' }} />
-      <Stack.Screen name="Gender" component={GenderScreen} />
+      <Stack.Screen name="Signin" component={SigninScreen} options={{ title: 'Sign In' }} /> */}
+      <Stack.Screen name="Name" component={NameScreen} />
       <Stack.Screen name="Pronouns" component={PronounsScreen} />
       <Stack.Screen name="Personality" component={PersonalityScreen} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
@@ -51,8 +52,6 @@ function HomeTabNavigation() {
       initialRouteName="HomeScreen"
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: 'tomato',
-        tabBarInactiveTintColor: 'gray',
         tabBarShowLabel: false,
         tabBarStyle: {
           height: 100,
