@@ -34,7 +34,6 @@ export default function DistractionsScreen({ navigation }) {
         console.log(!distractions[distraction], distraction)
         setDistractions( () => {
             const newObj = Object.assign({}, distractions)
-            console.log(newObj)
             newObj[distraction] = !distractions[distraction]
             return newObj
         }
