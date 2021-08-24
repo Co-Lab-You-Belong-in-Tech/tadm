@@ -3,7 +3,7 @@ import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 import  { LinearGradient } from 'expo-linear-gradient'
 import MaskedView from "@react-native-masked-view/masked-view";
 
-export default function CustomButton({ title, onPress, style, ...otherProps }) {
+export default function CustomIconButton({ title, onPress, style, ...otherProps }) {
   return (
 
         <TouchableOpacity style={[styles.button, style]} onPress={onPress} {...otherProps}>
@@ -31,8 +31,8 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: 'center',
-    fontSize: 18,
+    fontSize: 30,
     fontWeight: '500',
-    padding: 12,
+    padding: 7,
   },
 });
