@@ -38,7 +38,7 @@ export default function SignupScreen({ navigation }) {
     if (registereduser?.user) {
       createUserProfileDocument(registereduser.user);
       const { email, uid } = registereduser.user;
-      navigation.navigate('Profile', { email, uid });
+      navigation.navigate('Gender', { email, uid });
     }
   }, [registereduser?.user]);
 
@@ -110,3 +110,8 @@ const styles = StyleSheet.create({
     marginBottom: 100,
   }
 });
+
+/*
+I learned how to build a mobile app, learned how to use the firebase database, learned user authentication, and how to use redux toolkit for global state management.  I also learned how to work with other product organization partners.
+
+*/

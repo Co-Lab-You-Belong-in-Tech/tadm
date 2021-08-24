@@ -12,6 +12,9 @@ import LandingScreen from './screens/LandingScreen';
 import SigninScreen from './screens/SigninScreen';
 import SignupScreen from './screens/SignupScreen';
 import ChatScreen from './screens/ChatScreen';
+import GenderScreen from './screens/GenderScreen';
+import PronounsScreen from './screens/PronounsScreen';
+import PersonalityScreen from './screens/PersonalityScreen';
 // Utils
 import { UserProvider } from './contexts/UserContext';
 import useCurrentUser from './hooks/useCurrentUser';
@@ -34,6 +37,9 @@ const ApplicationNavigation = () => {
       <Stack.Screen name="Landing" component={LandingScreen} />
       <Stack.Screen name="Signup" component={SignupScreen} options={{ title: 'Sign Up' }} />
       <Stack.Screen name="Signin" component={SigninScreen} options={{ title: 'Sign In' }} />
+      <Stack.Screen name="Gender" component={GenderScreen} />
+      <Stack.Screen name="Pronouns" component={PronounsScreen} />
+      <Stack.Screen name="Personality" component={PersonalityScreen} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
     </Stack.Navigator>
   );
