@@ -8,10 +8,11 @@ import useCurrentUser from '../hooks/useCurrentUser';
 
 
 
-export default function MainGoalScreen({ navigation }) {
-
+export default function MainGoalScreen({ navigation, route }) {
+  const { email, uid } = route.params
+  
     function handleSubmit () {
-      navigation.navigate('Goals')
+      navigation.navigate('Goals', { email, uid })
     }
 
     return (

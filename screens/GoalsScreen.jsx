@@ -7,8 +7,9 @@ import useCurrentUser from '../hooks/useCurrentUser';
 
 
 
-export default function GoalsScreen({ navigation }) {
-    [name, setName] = useState('')
+export default function GoalsScreen({ navigation, route }) {
+    const { email, uid } = route.params
+    const [name, setName] = useState('')
 
     return (
         <View style={{ backgroundColor: 'white', padding: 30, flex: 1, }}>
@@ -28,7 +29,7 @@ export default function GoalsScreen({ navigation }) {
             <View style={{flex: 1, display: 'flex', justifyContent: 'flex-end'}}>
                 <CustomIconButton
                 title="➔"
-                onPress={() => name && navigation.navigate('Preferences')}
+                onPress={() => name && navigation.navigate('Preferences', { email, uid })}
                 style={[styles.mainButton]}
                 />
             </View>

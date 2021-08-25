@@ -8,9 +8,10 @@ import ImagePicker from '../components/ImagePicker';
 
 
 
-export default function ProfilePicScreen({ navigation }) {
+export default function ProfilePicScreen({ navigation, route }) {
     const [image, setImage] = useState(null)
-
+    const { email, uid } = route.params
+    
     return (
         <View style={{ backgroundColor: 'white', padding: 30, flex: 1, }}>
             <Intro
@@ -20,7 +21,7 @@ export default function ProfilePicScreen({ navigation }) {
             <View style={{flex: 1, display: 'flex', justifyContent: 'flex-end'}}>
                 <CustomIconButton
                 title="➔"
-                onPress={() => navigation.navigate('Distractions')}
+                onPress={() => navigation.navigate('Distractions', { email, uid })}
                 style={[styles.mainButton]}
                 />
             </View>

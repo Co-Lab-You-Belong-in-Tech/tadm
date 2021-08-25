@@ -8,25 +8,26 @@ import useCurrentUser from '../hooks/useCurrentUser';
 
 
 
-export default function PreferencesScreen({ navigation }) {
+export default function PreferencesScreen({ navigation, route }) {
+  const { email, uid } = route.params
 
-    function handleSubmit () {
-      navigation.navigate('Goals')
-    }
+  function handleSubmit () {
+    navigation.navigate('Goals')
+  }
 
-    return (
-        <ScrollView style={{ backgroundColor: 'white', padding: 30 }}>
-            <Intro
-                title="Alright, let us know how you would like to be matched!" 
-                description="Please select your top preference"
-            />
-            <CustomOnboardingButton style={styles.button} title="Similar goals" onPress={handleSubmit} />
-            <CustomOnboardingButton style={styles.button} title="Similar personality" onPress={handleSubmit} />
-            <CustomOnboardingButton style={styles.button} title="Gender" onPress={handleSubmit} />
-            <CustomOnboardingButton style={styles.button} title="Timezone" onPress={handleSubmit} />
-            <CustomOnboardingButton style={styles.button} title="No preference" onPress={handleSubmit} />
-        </ScrollView>
-  );
+  return (
+      <ScrollView style={{ backgroundColor: 'white', padding: 30 }}>
+          <Intro
+              title="Alright, let us know how you would like to be matched!" 
+              description="Please select your top preference"
+          />
+          <CustomOnboardingButton style={styles.button} title="Similar goals" onPress={handleSubmit} />
+          <CustomOnboardingButton style={styles.button} title="Similar personality" onPress={handleSubmit} />
+          <CustomOnboardingButton style={styles.button} title="Gender" onPress={handleSubmit} />
+          <CustomOnboardingButton style={styles.button} title="Timezone" onPress={handleSubmit} />
+          <CustomOnboardingButton style={styles.button} title="No preference" onPress={handleSubmit} />
+      </ScrollView>
+);
 }
 
 const styles = StyleSheet.create({

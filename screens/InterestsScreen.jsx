@@ -2,17 +2,42 @@ import React, { useState } from 'react';
 import { ScrollView, View, Button, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import Intro from '../components/Intro';
 import InputField from '../components/InputField';
-import CustomOnboardingButton from '../components/CustomOnboardingButton';
+import CustomBubbleButton from '../components/CustomBubbleButton';
 import CustomIconButton from '../components/CustomIconButton';
 import { db } from '../utils/firebase';
 import useCurrentUser from '../hooks/useCurrentUser';
 
+const data = [
+    'Reading', 'Television', 'Music', 'Gardening', 'Fishing', 
+    'Video Games', 'Walking', 'Golf', 'Shopping', 'Traveling', 
+    'Cards', 'Eating', 'Writing', 'Running', 'Volunteering', 
+    'Dancing', 'Biking', 
+]
 
+const uid = '04GoKU4E8rezCO8CgFFtuykROGi1'
+const email = 'z@g.gcom'
 
-export default function PersonalityScreen({ navigation }) {
+export default function InterestsScreen({ navigation, route }) {
+    const [interests, setInterests] = useState(data.map(name => ({ name, selected: false }) ))
 
-    function handleSubmit () {
-        
+    // const { uid, email } = route.params
+
+    function handlePress () {
+        if (!interests.filter(item => item.selected).length) return
+        const selectedInterests = interests.filter(interest => interest.selected).map(item => item.name)
+        db.collection('users')
+        .doc(uid)
+        .update({ interests: selectedInterests })
+        .catch(console.log)
+        navigation.navigate('ProfilePic', { email, uid })
+    }
+
+    function handleSelect (interest, idx) {
+        setInterests( () => {
+            const newInterests = interests.slice()
+            newInterests[idx].selected = !interests[idx].selected
+            return newInterests
+        })
     }
 
     return (
@@ -21,62 +46,18 @@ export default function PersonalityScreen({ navigation }) {
                 title="What are your interests?" description="Select all that apply"
             />
             <View style={styles.buttons}>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Reading</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Television</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Music</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Gardening</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Fishing</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Video Games</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Walking</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Golf</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Shopping</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Traveling</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Cards</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Eating</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Writing</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Running</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Volunteering</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Dancing</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Biking</Text>
-                </TouchableOpacity>
+                {interests.map((interest, idx) => <CustomBubbleButton
+                key={idx}
+                title={data[idx]}
+                onPress={() => handleSelect(interest, idx)}
+                style={[styles.button]}
+                selected={interest.selected}
+                />)}
             </View>
             <View style={{flex: 1, display: 'flex', justifyContent: 'flex-end'}}>
                 <CustomIconButton
                 title="➔"
-                onPress={() => name && navigation.navigate('ProfilePic')}
+                onPress={handlePress}
                 style={[styles.mainButton]}
                 />
             </View>
@@ -125,3 +106,10 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-end'
       },
   });
+
+
+
+
+
+
+

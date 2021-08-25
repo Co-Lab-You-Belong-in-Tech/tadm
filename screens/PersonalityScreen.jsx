@@ -2,17 +2,41 @@ import React, { useState } from 'react';
 import { ScrollView, View, Button, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import Intro from '../components/Intro';
 import InputField from '../components/InputField';
-import CustomOnboardingButton from '../components/CustomOnboardingButton';
+import CustomBubbleButton from '../components/CustomBubbleButton';
 import CustomIconButton from '../components/CustomIconButton';
 import { db } from '../utils/firebase';
 import useCurrentUser from '../hooks/useCurrentUser';
 
+const data = [
+    'Active','Quiet','Confident','Friendly','Mean','Loud'  
+     ,'Easy-Going','Clever', 'Polite','Happy','Intelligent',
+     'Patient','Boring','Sarcastic',  'Impulsive','Sensitive','Clever','Modest'
+]
 
+const uid = '04GoKU4E8rezCO8CgFFtuykROGi1'
+const email = 'z@g.gcom'
 
-export default function PersonalityScreen({ navigation }) {
+export default function PersonalityScreen({ navigation, route }) {
+    const [personalities, setPersonalities] = useState(data.map(name => ({ name, selected: false }) ))
 
-    function handleSubmit () {
-        
+    // const { uid, email } = route.params
+
+    function handlePress () {
+        if (!personalities.filter(item => item.selected).length) return
+        const selectedPersonalities = personalities.filter(personality => personality.selected).map(item => item.name)
+        db.collection('users')
+        .doc(uid)
+        .update({ personalities: selectedPersonalities })
+        .catch(console.log)
+        navigation.navigate('Interests', { email, uid })
+    }
+
+    function handleSelect (personality, idx) {
+        setPersonalities( () => {
+            const newPersonalities = personalities.slice()
+            newPersonalities[idx].selected = !personalities[idx].selected
+            return newPersonalities
+        })
     }
 
     return (
@@ -21,65 +45,18 @@ export default function PersonalityScreen({ navigation }) {
                 title="Describe yourself" description="Select all that apply"
             />
             <View style={styles.buttons}>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Active</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Quiet</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Confident</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Friendly</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Mean</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Loud</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Easy-Going</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Clever</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Polite</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Happy</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Intelligent</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Patient</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Boring</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Sarcastic</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Impulsive</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Sensitive</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Clever</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
-                    <Text style={styles.text}>Modest</Text>
-                </TouchableOpacity>
+                {personalities.map((personality, idx) => <CustomBubbleButton
+                key={idx}
+                title={data[idx]}
+                onPress={() => handleSelect(personality, idx)}
+                style={[styles.button]}
+                selected={personality.selected}
+                />)}
             </View>
             <View style={{flex: 1, display: 'flex', justifyContent: 'flex-end'}}>
                 <CustomIconButton
                 title="➔"
-                onPress={() => name && navigation.navigate('Interests')}
+                onPress={handlePress}
                 style={[styles.mainButton]}
                 />
             </View>
@@ -128,3 +105,9 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-end'
       },
   });
+
+
+
+
+
+  
