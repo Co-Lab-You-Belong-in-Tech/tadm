@@ -31,7 +31,6 @@ export default function DistractionsScreen({ navigation }) {
     })
 
     function handleSubmit (distraction) {
-        console.log(!distractions[distraction], distraction)
         setDistractions( () => {
             const newObj = Object.assign({}, distractions)
             newObj[distraction] = !distractions[distraction]

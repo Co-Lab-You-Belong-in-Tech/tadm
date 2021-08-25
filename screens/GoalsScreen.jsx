@@ -28,7 +28,7 @@ export default function GoalsScreen({ navigation }) {
             <View style={{flex: 1, display: 'flex', justifyContent: 'flex-end'}}>
                 <CustomIconButton
                 title="➔"
-                onPress={() => name && navigation.navigate('Pronouns')}
+                onPress={() => name && navigation.navigate('Preferences')}
                 style={[styles.mainButton]}
                 />
             </View>

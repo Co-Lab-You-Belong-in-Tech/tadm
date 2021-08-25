@@ -22,6 +22,7 @@ import DistractionsScreen from './screens/DistractionsScreen';
 import MainGoalScreen from './screens/MainGoalScreen';
 import GoalsScreen from './screens/GoalsScreen';
 import ProfilePicScreen from './screens/ProfilePicScreen';
+import PreferencesScreen from './screens/PreferencesScreen';
 // Utils
 import { UserProvider } from './contexts/UserContext';
 import useCurrentUser from './hooks/useCurrentUser';
@@ -41,9 +42,9 @@ const ApplicationNavigation = () => {
     </Stack.Navigator>
   ) : (
     <Stack.Navigator>
-      <Stack.Screen name="Landing" component={LandingScreen} />
+      {/* <Stack.Screen name="Landing" component={LandingScreen} />
       <Stack.Screen name="Signup" component={SignupScreen} options={{ title: 'Sign Up' }} />
-      <Stack.Screen name="Signin" component={SigninScreen} options={{ title: 'Sign In' }} />
+      <Stack.Screen name="Signin" component={SigninScreen} options={{ title: 'Sign In' }} /> */}
       <Stack.Screen name="Name" component={NameScreen} />
       <Stack.Screen name="Bio" component={BioScreen} />
       <Stack.Screen name="Pronouns" component={PronounsScreen} />
@@ -53,6 +54,7 @@ const ApplicationNavigation = () => {
       <Stack.Screen name="Distractions" component={DistractionsScreen} />
       <Stack.Screen name="MainGoal" component={MainGoalScreen} />
       <Stack.Screen name="Goals" component={GoalsScreen} />
+      <Stack.Screen name="Preferences" component={PreferencesScreen} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
     </Stack.Navigator>
   );

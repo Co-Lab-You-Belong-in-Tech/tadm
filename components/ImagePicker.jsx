@@ -13,7 +13,9 @@ export default function CustomImagePicker({image, setImage}) {
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: false,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
     });
 
     console.log(result);
@@ -25,7 +27,7 @@ export default function CustomImagePicker({image, setImage}) {
 
   return (
     <TouchableOpacity style={[styles.button]} onPress={pickImage}>
-      {<Image source={image ? { uri: image } : ProfileImage} style={{ width: 200, height: 200 }} />}
+      {<Image source={image ? { uri: image } : ProfileImage} style={{ width: 200, height: 200, borderRadius: 100, }} />}
       </TouchableOpacity>
 
   );
