@@ -42,9 +42,9 @@ const ApplicationNavigation = () => {
     </Stack.Navigator>
   ) : (
     <Stack.Navigator>
-      {/* <Stack.Screen name="Landing" component={LandingScreen} />
+      <Stack.Screen name="Landing" component={LandingScreen} />
       <Stack.Screen name="Signup" component={SignupScreen} options={{ title: 'Sign Up' }} />
-      <Stack.Screen name="Signin" component={SigninScreen} options={{ title: 'Sign In' }} /> */}
+      <Stack.Screen name="Signin" component={SigninScreen} options={{ title: 'Sign In' }} />
       <Stack.Screen name="Name" component={NameScreen} />
       <Stack.Screen name="Bio" component={BioScreen} />
       <Stack.Screen name="Pronouns" component={PronounsScreen} />
