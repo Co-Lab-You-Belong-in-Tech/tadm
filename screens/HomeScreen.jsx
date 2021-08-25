@@ -6,10 +6,11 @@ import { db } from '../utils/firebase';
 const usersRef = db.collection('users');
 
 function getDate(offset) {
+  let days = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
   let today = new Date();
   let toDate = new Date();
   toDate.setDate(today.getDate() - offset);
-  return toDate.toLocaleDateString();
+  return { date: toDate.toLocaleDateString(), day: days[toDate.getDay()] }
 }
 
 const goalDates = [6, 5, 4, 3, 2, 1, 0].map((item) => getDate(item));
@@ -70,55 +71,50 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <View style={styles.wrapper}>
-      <Text style={styles.aboveTopText}>Weekly Goal </Text>
       <View style={styles.top}>
-        <Text style={styles.topText}> {profile?.goal || 'insert goal here'} </Text>
+        <Text style={styles.topText}>Goal of the Week </Text>
+        <Text style={styles.topTextSecond}> {profile?.goal || 'insert goal here'} </Text>
         <View style={styles.topView}>
-          {goalDates.map((item, idx) => (
-            <View key={idx} style={styles.topViews}>
-              <TouchableOpacity
-                style={[styles.touchable, profile?.goalHistory?.includes(item) && styles.completed]}
-                onPress={() => handlePress(item)}>
-                <Text
-                  style={[
-                    styles.touchableText,
-                    profile?.goalHistory?.includes(item) && { color: 'white' },
-                  ]}>
-                  {item.split('/')[0] + '/' + item.split('/')[1]}
+          {goalDates.map((item, idx) => (<View key={idx} style={styles.checkboxContainer}>
+                <Text style={{color: '#FFABAB'}}>
+                  {item.day}
                 </Text>
+                <Text style={{color: 'white', fontWeight: 'bold'}}>
+                  {item.date.split('/')[1]}
+                </Text>
+            <View  style={styles.topViews}>
+              <TouchableOpacity
+                style={[styles.touchable, profile?.goalHistory?.includes(item.date) && styles.completed]}
+                onPress={() => handlePress(item.date)}>
               </TouchableOpacity>
             </View>
-          ))}
+          </View>))}
         </View>
       </View>
       <View style={styles.middle}>
         <Text style={styles.middleText}>Do the one thing that would make you satisfied with your day</Text>
       </View>
-      <Text style={styles.aboveBottomText}>{buddyProfile?.name || 'Partner'}'s Weekly Goal </Text>
       <View style={styles.bottom}>
-        <View style={matched ? styles.bottomMatched : styles.bottomUnMatched}>
+        <Text style={styles.bottomText}>{buddyProfile?.name || 'Partner'}'s Goal of the Week </Text>
+        {matched ? <Text style={styles.bottomTextSecond}> {buddyProfile.goal} </Text> : <View style={matched ? styles.bottomMatched : styles.bottomUnMatched}>
           <Text style={matched ? styles.bottomMatchedText : styles.bottomUnMatchedText}>
-            {matched ? buddyProfile.goal : 'Waiting to match...'}{' '}
+            {'Waiting to match...'}{' '}
           </Text>
-        </View>
+        </View>}
         <View style={styles.topView}>
-          {goalDates.map((item, idx) => (
+          {goalDates.map((item, idx) => (<View key={idx} style={styles.checkboxContainer}>
+                <Text style={{color: '#FFABAB'}}>
+                  {item.day}
+                </Text>
+                <Text style={{color: 'white', fontWeight: 'bold'}}>
+                  {item.date.split('/')[1]}
+                </Text>
             <View key={idx} style={styles.topViews}>
               <TouchableOpacity
-                style={[
-                  styles.touchable,
-                  buddyProfile?.goalHistory?.includes(item) && styles.buddyCompleted,
-                ]}>
-                <Text
-                  style={[
-                    styles.touchableText,
-                    buddyProfile?.goalHistory?.includes(item) && { color: 'white' },
-                  ]}>
-                  {item.split('/')[0] + '/' + item.split('/')[1]}
-                </Text>
+                style={[styles.touchable, buddyProfile?.goalHistory?.includes(item.date) && styles.buddyCompleted]}>
               </TouchableOpacity>
             </View>
-          ))}
+          </View>))}
         </View>
       </View>
     </View>
@@ -151,11 +147,12 @@ const styles = StyleSheet.create({
   },
   top: {
     alignItems: 'center',
-    backgroundColor: '#E5E5E5',
+    backgroundColor: 'black',
     marginLeft: 20,
-    marginBottom: 20,
+    marginBottom: 10,
     marginRight: 20,
     borderRadius: 15,
+    marginTop: 20,
     flex: 0.7,
   },
   topView: {
@@ -167,9 +164,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   topViews: {
-    backgroundColor: '#f1f1f1',
+    backgroundColor: 'black',
     borderRadius: 30,
-    margin: 2,
+    margin: 8,
+    marginTop: 4,
+    borderColor: 'white',
+    borderWidth: 1,
+    borderStyle: 'solid',
   },
   completed: {
     backgroundColor: 'green',
@@ -179,33 +180,39 @@ const styles = StyleSheet.create({
     backgroundColor: 'orange',
     borderRadius: 30,
   },
+  checkboxContainer: {
+    display: 'flex',
+    alignItems: 'center',
+  },
   touchable: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: 50,
-    height: 50,
+    width: 30,
+    height: 30,
   },
   touchableText: {
-    color: 'gray',
+    color: '#FFABAB',
   },
   middle: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#E5E5E5',
+    backgroundColor: '#FFABAB',
     margin: 20,
+    marginTop: 10,
+    marginBottom: 20,
     borderRadius: 15,
-    flex: 0.3,
+    flex: 0.2,
   },
   bottom: {
+    display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#E5E5E5',
+    backgroundColor: 'black',
     marginBottom: 20,
     marginLeft: 20,
     marginRight: 20,
     borderRadius: 15,
-    flex: 0.9,
+    flex: 0.7,
   },
   bottomUnMatched: {
     alignItems: 'center',
@@ -216,30 +223,63 @@ const styles = StyleSheet.create({
     width: 400,
     flex: 0.5,
   },
+  bottomMatched: {
+    alignItems: 'flex-start',
+    flex: 0.5,
+  },
   bottomUnMatchedText: {
     fontWeight: 'bold',
     color: 'white',
     fontSize: 30,
   },
   bottomMatchedText: {
-    fontWeight: 'bold',
-    fontSize: 18,
-    color: 'black',
-  },
-  aboveTopText: {
-    fontWeight: 'bold',
-    marginTop: 20,
-    marginBottom: 5,
-    fontSize: 14,
-    textAlign: 'center',
-  },
-  topText: {
-    fontWeight: 'bold',
-    marginTop: 40,
+    marginTop: 10,
     marginLeft: 20,
     marginRight: 20,
     fontSize: 18,
-    textAlign: 'center',
+    color: 'white',
+  },
+  topText: {
+    fontWeight: 'bold',
+    paddingTop: 20,
+    marginTop: 10,
+    marginLeft: 20,
+    marginRight: 20,
+    fontSize: 18,
+    color: 'white',
+    textAlign: 'left',
+    alignSelf: 'stretch',
+  },
+  topTextSecond: {
+    marginTop: 15,
+    marginLeft: 20,
+    marginRight: 20,
+    fontSize: 18,
+    color: 'white',
+    textAlign: 'left',
+    alignSelf: 'stretch',
+    flex: .4,
+  },
+  bottomText: {
+    fontWeight: 'bold',
+    paddingTop: 20,
+    marginTop: 10,
+    marginLeft: 20,
+    marginRight: 20,
+    fontSize: 18,
+    color: 'white',
+    textAlign: 'left',
+    alignSelf: 'stretch',
+  },
+  bottomTextSecond: {
+    marginTop: 15,
+    marginLeft: 20,
+    marginRight: 20,
+    fontSize: 18,
+    color: 'white',
+    textAlign: 'left',
+    alignSelf: 'stretch',
+    flex: .4,
   },
   middleText: {
     fontWeight: 'bold',
@@ -251,10 +291,6 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     fontSize: 14,
     textAlign: 'center',
-  },
-  bottomText: {
-    fontWeight: 'bold',
-    fontSize: 24,
   },
   homeImg: {
     resizeMode: 'contain',
