@@ -23,13 +23,14 @@ export default function InputField({ label, type, ...inputProps }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#F2F2F2',
     borderRadius: 10,
     padding: 15,
     marginBottom: 20,
+    borderWidth: 1,
   },
   label: {
     fontSize: 14,
+    color: 'gray',
   },
   field: {
     marginTop: 5,
