@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View, Image, Text } from 'react-native';
+import { Provider } from 'react-redux'
 // Screens
 import HomeScreen from './screens/HomeScreen';
 import ProfileScreen from './screens/ProfileScreen';
@@ -11,10 +12,23 @@ import LandingScreen from './screens/LandingScreen';
 import SigninScreen from './screens/SigninScreen';
 import SignupScreen from './screens/SignupScreen';
 import ChatScreen from './screens/ChatScreen';
+import GenderScreen from './screens/GenderScreen';
+import PronounsScreen from './screens/PronounsScreen';
+import PersonalityScreen from './screens/PersonalityScreen';
+import NameScreen from './screens/NameScreen';
+import BioScreen from './screens/BioScreen';
+import InterestsScreen from './screens/InterestsScreen';
+import DistractionsScreen from './screens/DistractionsScreen';
+import MainGoalScreen from './screens/MainGoalScreen';
+import GoalsScreen from './screens/GoalsScreen';
+import ProfilePicScreen from './screens/ProfilePicScreen';
+import PreferencesScreen from './screens/PreferencesScreen';
 // Utils
 import { UserProvider } from './contexts/UserContext';
 import useCurrentUser from './hooks/useCurrentUser';
 import { icons } from './utils/icons.js'
+import { store } from './utils/store'
+
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -31,6 +45,16 @@ const ApplicationNavigation = () => {
       <Stack.Screen name="Landing" component={LandingScreen} />
       <Stack.Screen name="Signup" component={SignupScreen} options={{ title: 'Sign Up' }} />
       <Stack.Screen name="Signin" component={SigninScreen} options={{ title: 'Sign In' }} />
+      <Stack.Screen name="Name" component={NameScreen} />
+      <Stack.Screen name="Bio" component={BioScreen} />
+      <Stack.Screen name="Pronouns" component={PronounsScreen} />
+      <Stack.Screen name="Personality" component={PersonalityScreen} />
+      <Stack.Screen name="Interests" component={InterestsScreen} />
+      <Stack.Screen name="ProfilePic" component={ProfilePicScreen} />
+      <Stack.Screen name="Distractions" component={DistractionsScreen} />
+      <Stack.Screen name="MainGoal" component={MainGoalScreen} />
+      <Stack.Screen name="Goals" component={GoalsScreen} />
+      <Stack.Screen name="Preferences" component={PreferencesScreen} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
     </Stack.Navigator>
   );
@@ -42,25 +66,22 @@ function HomeTabNavigation() {
       initialRouteName="HomeScreen"
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: 'tomato',
-        tabBarInactiveTintColor: 'gray',
         tabBarShowLabel: false,
-        tabBarActiveTintColor: 'tomato',
         tabBarStyle: {
           height: 100,
         }
       }}>
       <Tab.Screen name="Chat" component={ChatScreen} 
       options={{
-        tabBarIcon: () => <Icon imgSrc={icons.chat}/>,
+        tabBarIcon: ({focused}) => <Icon imgSrc={focused ? icons.chatFocused : icons.chat}/>,
       }}/>
       <Tab.Screen name="HomeScreen" component={HomeScreen}       
       options={{
-        tabBarIcon: () => <Icon imgSrc={icons.home}/>
+        tabBarIcon: ({focused}) => <Icon imgSrc={focused ? icons.homeFocused : icons.home}/>,
       }}/>
       <Tab.Screen name="ViewProfile" component={ViewProfileScreen} 
       options={{
-        tabBarIcon: () => <Icon imgSrc={icons.profile}/>
+        tabBarIcon: ({focused}) => <Icon imgSrc={focused ? icons.profileFocused : icons.profile}/>,
       }}/>
     </Tab.Navigator>
   );
@@ -68,11 +89,13 @@ function HomeTabNavigation() {
 
 export default function App() {
   return (
+    <Provider store={store}>
     <UserProvider>
       <NavigationContainer>
         <ApplicationNavigation />
       </NavigationContainer>
     </UserProvider>
+    </Provider>
   );
 }
 

@@ -45,6 +45,12 @@ export default function SigninScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.textHeader}>
+        Welcome Back!
+      </Text>
+      <Text style={styles.textSubHeader} >
+        Make sure to check in with your buddy today
+      </Text>
       <InputField
         label="Email"
         value={values.email}
@@ -65,16 +71,27 @@ export default function SigninScreen({ navigation }) {
           Register
         </Text>
       </Text>
-      <CustomButton onPress={handleSubmit} title="Sign In" />
+      <CustomButton onPress={handleSubmit} style={styles.button} title="Sign In" />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  textHeader: {
+    marginBottom: 10,
+    marginTop: 80,
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  textSubHeader: {
+    marginBottom: 40,
+    marginTop: 20,
+    fontSize: 20,
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    padding: 20,
+    padding: 30,
   },
   input: {
     height: 50,
@@ -87,10 +104,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   button: {
-    borderWidth: 2,
-    borderColor: 'black',
-    borderRadius: 15,
-    width: 100,
+    marginTop: 40,
   },
   link: {
     fontWeight: 'bold',
