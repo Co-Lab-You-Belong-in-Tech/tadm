@@ -8,24 +8,29 @@ import useCurrentUser from '../hooks/useCurrentUser';
 
 
 
-export default function PronounsScreen({ navigation }) {
+export default function PronounsScreen({ navigation, route }) {
+  const { uid, email } = route.params
 
-    function handleSubmit () {
-      navigation.navigate('Personality')
-    }
+  function handlePress (pronouns) {
+    db.collection('users')
+    .doc(uid)
+    .update({ pronouns })
+    .catch(console.log)
+    navigation.navigate('Personality', { email, uid })
+  }
 
-    return (
-        <ScrollView style={{ backgroundColor: 'white', padding: 30 }}>
-        <Intro
-            title="Select your pronouns" description="Please select one below"
-        />
-        <CustomOnboardingButton style={styles.button} title="He/Him" onPress={handleSubmit} />
-        <CustomOnboardingButton style={styles.button} title="She/Her" onPress={handleSubmit} />
-        <CustomOnboardingButton style={styles.button} title="They/Them" onPress={handleSubmit} />
-        <CustomOnboardingButton style={styles.button} title="He/They" onPress={handleSubmit} />
-        <CustomOnboardingButton style={styles.button} title="She/They" onPress={handleSubmit} />
-        </ScrollView>
-  );
+  return (
+      <ScrollView style={{ backgroundColor: 'white', padding: 30 }}>
+      <Intro
+          title="Select your pronouns" description="Please select one below"
+      />
+      <CustomOnboardingButton style={styles.button} title="He/Him" onPress={() => handlePress('He/Him')} />
+      <CustomOnboardingButton style={styles.button} title="She/Her" onPress={() => handlePress('She/Her')} />
+      <CustomOnboardingButton style={styles.button} title="They/Them" onPress={() => handlePress('They/Them')} />
+      <CustomOnboardingButton style={styles.button} title="He/They" onPress={() => handlePress('He/They')} />
+      <CustomOnboardingButton style={styles.button} title="She/They" onPress={() => handlePress('She/They')} />
+      </ScrollView>
+);
 }
 
 const styles = StyleSheet.create({

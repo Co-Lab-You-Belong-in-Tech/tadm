@@ -6,27 +6,41 @@ import CustomOnboardingButton from '../components/CustomOnboardingButton';
 import { db } from '../utils/firebase';
 import useCurrentUser from '../hooks/useCurrentUser';
 
+const preferences = [
+  'Similar goals',
+  'Similar personality',
+  'Gender',
+  'Timezone',
+  'No preference',
+]
 
+export default function PreferencesScreen({ navigation, route }) {
+  const { email, uid } = route.params
+  const { setCurrentUser } = useCurrentUser();
 
-export default function PreferencesScreen({ navigation }) {
+  function handleSubmit (preference) {
+    setCurrentUser({ uid, email });
+    db.collection('users')
+    .doc(uid)
+    .update({ preference })
+    .catch(console.log)
+    navigation.navigate('Goals', { email, uid })
+  }
 
-    function handleSubmit () {
-      navigation.navigate('Goals')
-    }
-
-    return (
-        <ScrollView style={{ backgroundColor: 'white', padding: 30 }}>
-            <Intro
-                title="Alright, let us know how you would like to be matched!" 
-                description="Please select your top preference"
-            />
-            <CustomOnboardingButton style={styles.button} title="Similar goals" onPress={handleSubmit} />
-            <CustomOnboardingButton style={styles.button} title="Similar personality" onPress={handleSubmit} />
-            <CustomOnboardingButton style={styles.button} title="Gender" onPress={handleSubmit} />
-            <CustomOnboardingButton style={styles.button} title="Timezone" onPress={handleSubmit} />
-            <CustomOnboardingButton style={styles.button} title="No preference" onPress={handleSubmit} />
-        </ScrollView>
-  );
+  return (
+      <ScrollView style={{ backgroundColor: 'white', padding: 30 }}>
+          <Intro
+              title="Alright, let us know how you would like to be matched!" 
+              description="Please select your top preference"
+          />
+          {preferences.map(preference => <CustomOnboardingButton 
+            style={styles.button} 
+            title={preference}
+            key={preference}
+            onPress={() => handleSubmit(preference)} 
+            />)}
+      </ScrollView>
+);
 }
 
 const styles = StyleSheet.create({

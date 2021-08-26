@@ -19,24 +19,40 @@ import EmailsSelected from '../assets/DistractionIcons/Component22selected.png'
 import MultitaskingSelected from '../assets/DistractionIcons/Component23selected.png'
 import TextingSelected from '../assets/DistractionIcons/Component24selected.png'
 
+const data = [
+    'television', 'videoGames', 'socialMedia', 
+    'emails', 'multitasking', 'texting',
+]
 
-export default function DistractionsScreen({ navigation }) {
-    const [distractions, setDistractions] = useState({
-        television: false, 
-        videoGames: false, 
-        socialMedia: false, 
-        emails: false,
-        multitasking: false,
-        texting: false,
-    })
+const imports = [
+    [TV, TVSelected],
+    [VideoGames, VideoGamesSelected],
+    [SocialMedia, SocialMediaSelected],
+    [Emails, EmailsSelected],
+    [Multitasking, MultitaskingSelected],
+    [Texting, TextingSelected],
+]
 
-    function handleSubmit (distraction) {
-        setDistractions( () => {
-            const newObj = Object.assign({}, distractions)
-            newObj[distraction] = !distractions[distraction]
-            return newObj
-        }
-        )
+export default function DistractionsScreen({ navigation, route }) {
+    const [distractions, setDistractions] = useState(data.map(name => ({ name, selected: false }) ))
+    const { email, uid } = route.params
+
+    function handlePress (distraction, idx) {
+        setDistractions ( () => {
+            const newDistractions = distractions.slice()
+            newDistractions[idx].selected = !distractions[idx].selected
+            return newDistractions
+        })
+    }
+
+    function handleSubmit () {
+        if (!distractions.filter(item => item.selected).length) return
+        const selectedDistractions = distractions.filter(distraction => distraction.selected).map(item => item.name)
+        db.collection('users')
+        .doc(uid)
+        .update({ distractions: selectedDistractions })
+        .catch(console.log)
+        navigation.navigate('MainGoal', { email, uid })
     }
 
     return (
@@ -45,47 +61,17 @@ export default function DistractionsScreen({ navigation }) {
                 title="What are your biggest distractors?" description="Select all that apply"
             />
             <View style={styles.buttons}>
-                <TouchableOpacity style={[styles.button]} onPress={() => handleSubmit('television') }>
+                {distractions.map((distraction, idx) => <TouchableOpacity key={idx} style={[styles.button]} onPress={() => handlePress(distraction, idx) }>
                     <Image
                         style={styles.images}
-                        source={!distractions.television ? TV : TVSelected}
+                        source={!distraction.selected ? imports[idx][0] : imports[idx][1]}
                     />
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={() => handleSubmit('videoGames') }>
-                    <Image
-                        style={styles.images}
-                        source={!distractions.videoGames ? VideoGames : VideoGamesSelected}
-                    />             
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={() => handleSubmit('socialMedia') }>
-                    <Image
-                        style={styles.images}
-                        source={!distractions.socialMedia ? SocialMedia : SocialMediaSelected}
-                    />
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={() => handleSubmit('emails') }>
-                    <Image
-                        style={styles.images}
-                        source={!distractions.emails ? Emails: EmailsSelected}
-                    />
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={() => handleSubmit('multitasking') }>
-                    <Image
-                        style={styles.images}
-                        source={!distractions.multitasking ? Multitasking: MultitaskingSelected}
-                    />                 
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button]} onPress={() => handleSubmit('texting') }>
-                    <Image
-                        style={styles.images}
-                        source={!distractions.texting ? Texting: TextingSelected}
-                    />
-                </TouchableOpacity>
+                </TouchableOpacity>)}
             </View>
             <View style={{flex: 1, display: 'flex', justifyContent: 'flex-end'}}>
                 <CustomIconButton
                 title="➔"
-                onPress={() => navigation.navigate('MainGoal')}
+                onPress={handleSubmit}
                 style={[styles.mainButton]}
                 />
             </View>
