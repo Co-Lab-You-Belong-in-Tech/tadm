@@ -52,7 +52,7 @@ export default function HomeScreen({ navigation }) {
       .doc(currentUser.uid)
       .get()
       .then((res) => {
-        data = Object.assign({}, res.data());
+        const data = Object.assign({}, res.data());
         delete data.createdAt
         if (!data.goalHistory) data.goalHistory = []
         if (data.goalHistory.includes(date)) {
@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     paddingTop: 20,
     marginTop: 10,
-    marginLeft: 20,
+    marginLeft: 23,
     marginRight: 20,
     fontSize: 18,
     color: 'white',
@@ -263,7 +263,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     paddingTop: 20,
     marginTop: 10,
-    marginLeft: 20,
+
+    marginLeft: 23,
     marginRight: 20,
     fontSize: 18,
     color: 'white',
@@ -272,12 +273,6 @@ const styles = StyleSheet.create({
   },
   bottomTextSecond: {
     marginTop: 15,
-    marginLeft: 20,
-    marginRight: 20,
-    fontSize: 18,
-    color: 'white',
-    textAlign: 'left',
-    alignSelf: 'stretch',
     flex: .4,
   },
   middleText: {

@@ -7,8 +7,18 @@ import useCurrentUser from '../hooks/useCurrentUser';
 
 
 
-export default function BioScreen({ navigation }) {
-    [name, setName] = useState('')
+export default function BioScreen({ navigation, route }) {
+    const [bio, setBio] = useState('')
+    const { uid, email } = route.params;
+
+    function handlePress () {
+        if (!bio) return
+        db.collection('users')
+        .doc(uid)
+        .update({ bio })
+        .catch(console.log)
+        navigation.navigate('Pronouns', { email, uid })
+    }
 
     return (
         <View style={{ backgroundColor: 'white', padding: 30, flex: 1, }}>
@@ -16,9 +26,9 @@ export default function BioScreen({ navigation }) {
                 title="Tell us a bit about yourself" description="What would you like your partner to know about you?"
             />
             <TextInput
-                label="Your Name"
-                value={name}
-                onChangeText={(text) => setName(text)}
+                label="Your Bio"
+                value={bio}
+                onChangeText={(text) => setBio(text)}
                 autoCapitalize="words"
                 style={styles.input}
                 placeholder="Description"
@@ -29,7 +39,7 @@ export default function BioScreen({ navigation }) {
             <View style={{flex: 1, display: 'flex', justifyContent: 'flex-end'}}>
                 <CustomIconButton
                 title="➔"
-                onPress={() => name && navigation.navigate('Pronouns')}
+                onPress={handlePress}
                 style={[styles.mainButton]}
                 />
             </View>

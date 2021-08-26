@@ -7,8 +7,19 @@ import useCurrentUser from '../hooks/useCurrentUser';
 
 
 
-export default function NameScreen({ navigation }) {
-    [name, setName] = useState('')
+
+export default function NameScreen({ navigation, route }) {
+    const [name, setName] = useState('')
+    const { uid, email } = route.params;
+
+    function handlePress () {
+        if (!name) return
+        db.collection('users')
+        .doc(uid)
+        .set({ name, email })
+        .catch(console.log)
+        navigation.navigate('Bio', { email, uid })
+    }
 
     return (
         <View style={{ backgroundColor: 'white', padding: 30, flex: 1, }}>
@@ -26,7 +37,7 @@ export default function NameScreen({ navigation }) {
             <View style={{flex: 1, display: 'flex', justifyContent: 'flex-end'}}>
                 <CustomIconButton
                 title="➔"
-                onPress={() => name && navigation.navigate('Bio')}
+                onPress={handlePress}
                 style={[styles.mainButton]}
                 />
             </View>

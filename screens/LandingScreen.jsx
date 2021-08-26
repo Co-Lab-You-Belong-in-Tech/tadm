@@ -14,7 +14,7 @@ export default function LandingScreen({ navigation }) {
       ></Image>
       <MaskedView
         style={{ height: 60, justifyContent: 'center' }}
-        maskElement={<Text style={styles.title}>Accountabilibuddies</Text>}
+        maskElement={<Text style={styles.title}>AccountaPal</Text>}
       >
         <LinearGradient
           colors={['#FFDCA7', '#F35060', '#BF00FF' ]} 
