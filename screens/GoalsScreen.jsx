@@ -11,6 +11,15 @@ export default function GoalsScreen({ navigation, route }) {
     const { email, uid } = route.params
     const [name, setName] = useState('')
 
+    function handlePress () {
+        if (!name) return
+        db.collection('users')
+        .doc(uid)
+        .update({ goal: name })
+        .catch(console.log)
+        navigation.navigate('Preferences', { email, uid })
+    }
+
     return (
         <View style={{ backgroundColor: 'white', padding: 30, flex: 1, }}>
             <Intro
@@ -29,7 +38,7 @@ export default function GoalsScreen({ navigation, route }) {
             <View style={{flex: 1, display: 'flex', justifyContent: 'flex-end'}}>
                 <CustomIconButton
                 title="➔"
-                onPress={() => name && navigation.navigate('Preferences', { email, uid })}
+                onPress={handlePress}
                 style={[styles.mainButton]}
                 />
             </View>

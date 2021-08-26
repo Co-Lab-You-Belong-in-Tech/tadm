@@ -6,25 +6,36 @@ import CustomOnboardingButton from '../components/CustomOnboardingButton';
 import { db } from '../utils/firebase';
 import useCurrentUser from '../hooks/useCurrentUser';
 
-
+const goals = [
+  'Get a job',
+  'Improve a skill',
+  'Network with peers',
+  'Explore a hobby',
+  'Get more done',
+]
 
 export default function MainGoalScreen({ navigation, route }) {
   const { email, uid } = route.params
   
-    function handleSubmit () {
+    function handleSubmit (goal) {
+      db.collection('users')
+      .doc(uid)
+      .update({ mainGoal: goal })
+      .catch(console.log)
       navigation.navigate('Goals', { email, uid })
     }
 
     return (
         <ScrollView style={{ backgroundColor: 'white', padding: 30 }}>
-        <Intro
-            title="Let's talk about goals" description="What is the main thing you are trying to achieve?"
-        />
-        <CustomOnboardingButton style={styles.button} title="Get a job" onPress={handleSubmit} />
-        <CustomOnboardingButton style={styles.button} title="Improve a skill" onPress={handleSubmit} />
-        <CustomOnboardingButton style={styles.button} title="Network with peers" onPress={handleSubmit} />
-        <CustomOnboardingButton style={styles.button} title="Explore a hobby" onPress={handleSubmit} />
-        <CustomOnboardingButton style={styles.button} title="Get more done" onPress={handleSubmit} />
+          <Intro
+              title="Let's talk about goals" description="What is the main thing you are trying to achieve?"
+          />
+          {goals.map(goal => <CustomOnboardingButton 
+            style={styles.button} 
+            title={goal}
+            key={goal}
+            onPress={() => handleSubmit(goal)} 
+            />)}
         </ScrollView>
   );
 }

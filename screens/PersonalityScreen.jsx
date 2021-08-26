@@ -13,13 +13,10 @@ const data = [
      'Patient','Boring','Sarcastic',  'Impulsive','Sensitive','Clever','Modest'
 ]
 
-const uid = '04GoKU4E8rezCO8CgFFtuykROGi1'
-const email = 'z@g.gcom'
-
 export default function PersonalityScreen({ navigation, route }) {
     const [personalities, setPersonalities] = useState(data.map(name => ({ name, selected: false }) ))
 
-    // const { uid, email } = route.params
+    const { uid, email } = route.params
 
     function handlePress () {
         if (!personalities.filter(item => item.selected).length) return

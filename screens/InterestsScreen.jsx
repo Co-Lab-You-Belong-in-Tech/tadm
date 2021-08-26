@@ -14,13 +14,10 @@ const data = [
     'Dancing', 'Biking', 
 ]
 
-const uid = '04GoKU4E8rezCO8CgFFtuykROGi1'
-const email = 'z@g.gcom'
-
 export default function InterestsScreen({ navigation, route }) {
     const [interests, setInterests] = useState(data.map(name => ({ name, selected: false }) ))
 
-    // const { uid, email } = route.params
+    const { uid, email } = route.params
 
     function handlePress () {
         if (!interests.filter(item => item.selected).length) return
