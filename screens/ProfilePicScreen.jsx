@@ -6,7 +6,8 @@ import { db } from '../utils/firebase';
 import useCurrentUser from '../hooks/useCurrentUser';
 import ImagePicker from '../components/ImagePicker';
 
-
+// const uid = 'aYKecbOHBWevWf2PNw6csQkFbE62'
+// const email = 'blah'
 
 export default function ProfilePicScreen({ navigation, route }) {
     const [image, setImage] = useState(null)
@@ -17,7 +18,7 @@ export default function ProfilePicScreen({ navigation, route }) {
             <Intro
                 title="What do you look like?" description="Please add a photo of yourself so that other participants will know who you are."
             />
-            <ImagePicker image={image} setImage={setImage} />
+            <ImagePicker uid={uid} image={image} setImage={setImage} />
             <View style={{flex: 1, display: 'flex', justifyContent: 'flex-end'}}>
                 <CustomIconButton
                 title="➔"
