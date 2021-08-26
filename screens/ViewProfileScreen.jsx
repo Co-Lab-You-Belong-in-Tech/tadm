@@ -1,71 +1,106 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux'
-import { View, StyleSheet, Text, Button } from 'react-native';
+import { ScrollView, View, StyleSheet, Text, Button, Image } from 'react-native';
 import useCurrentUser from '../hooks/useCurrentUser';
+import CustomIconButton from '../components/CustomIconButton';
+import CustomBubbleButton from '../components/CustomBubbleButton';
+import Intro from '../components/Intro';
 import { db } from '../utils/firebase';
 const usersRef = db.collection('users');
 
 export default function ViewProfile({ navigation }) {
   const { currentUser } = useCurrentUser();
   const profile = useSelector(state => state.profile.value)
-
-  return <>
-    <Button onPress={() => navigation.goBack()} title="Edit Profile"></Button>
-    <View style={styles.container}>
-      <View style={styles.section}>
-        <View style={styles.header}>
-            <Text style={styles.headerText}>Bio</Text>
-        </View>
-        <View style={styles.body}>
-            <Text style={styles.bodyText}>{profile.bio}</Text>
-        </View>
-      </View>
-      <View style={styles.section}>
-        <View style={styles.header}>
-            <Text style={styles.headerText}>Weekly Goal</Text>
-        </View>
-        <View style={styles.body}>
-            <Text style={styles.bodyText}>{profile.goal}</Text>
-        </View> 
-      </View>
-
-      <View style={styles.section}>
-        <View style={styles.header}>
-            <Text style={styles.headerText}>Occupation</Text>
-        </View>
-        <View style={styles.body}>
-            <Text style={styles.bodyText}>{profile.occupation}</Text>
-        </View>
-      </View>
+  return <ScrollView style={{ backgroundColor: 'white', padding: 30, paddingTop: 10, flex: 1, }}>
+    <Button onPress={() => navigation.goBack()} title="Edit"></Button>
+    <View style={{ display: 'flex', alignItems: 'center', alignSelf: 'center' }}>
+      <Image source={{ uri: profile.uri }} style={{ width: 200, height: 200, borderRadius: 100, borderWidth: 3, }} />
+      <Text style={styles.title}>{profile.name}</Text>
     </View>
-  </>
+    <View>
+    <View style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between'}}>
+      <Text style={styles.header}>Bio</Text>
+      <Button onPress={() => navigation.goBack()} title="Edit"></Button>
+    </View>
+    <Text style={styles.bio}>{profile.bio}</Text>
+    </View>
+    <View>
+    <View style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between'}}>
+      <Text style={styles.header}>Main Goal</Text>
+      <Button onPress={() => navigation.goBack()} title="Edit"></Button>
+    </View>
+    <Text style={styles.body}>{profile.mainGoal}</Text>
+    </View>
+    <View style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between'}}>
+      <Text style={styles.header}>Interests</Text>
+      <Button onPress={() => navigation.goBack()} title="Edit"></Button>
+    </View>
+    <View style={styles.buttons}>
+      {profile.interests.slice(0,3).map((interest, idx) => <CustomBubbleButton
+        key={idx}
+        title={interest}
+        style={[styles.button]}
+        selected={true}
+        />)}
+    </View>
+    <View style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between'}}>
+      <Text style={styles.header}>Personality</Text>
+      <Button onPress={() => navigation.goBack()} title="Edit"></Button>
+    </View>
+    <View style={styles.buttons}>
+      {profile.personalities.slice(0,3).map((personality, idx) => <CustomBubbleButton
+        key={idx}
+        title={personality}
+        style={[styles.button]}
+        selected={true}
+        />)}
+    </View>
+    <View style={{flex: 1, display: 'flex', justifyContent: 'flex-end'}}>
+    </View>
+  </ScrollView>
 }
 
 const styles = StyleSheet.create({
-  section: {
-    borderRadius: 10,
-    margin: 20,
-    marginLeft: 40,
-    marginRight: 40,
-    padding: 20,
-    backgroundColor: 'white',
-  },
-  container: {
-    display: 'flex',
-    justifyContent: 'center',
-    flex: 1,
-  },
-  button: {
-    borderRadius: 10,
-    padding: 20,
-  },
-  headerText: {
-    fontSize: 30,
-    marginBottom: 10,
+  title: {
     fontWeight: 'bold',
+    fontSize: 28,
+    marginTop: 10,
+    marginBottom: 10,
   },
-  bodyText: {
-    fontSize: 25,
-    marginBottom: 50,
+  header: {
+    fontWeight: 'bold',
+    fontSize: 28,
+    marginTop: 10,
+    marginBottom: 5,
   },
+  body: {
+    fontSize: 22,
+  },
+  bio: {
+    fontSize: 17,
+  },
+  buttons: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center'
+},
+  button: {
+    backgroundColor: 'white',
+    borderWidth: .5,
+    borderRadius: 30,
+    padding: 4,
+    paddingTop: 1,
+    paddingBottom: 1,
+    marginTop: 5,
+    shadowColor: "#000",
+    shadowOffset: {
+        width: 0,
+        height: 1,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 1,
+    elevation: 2,
+    marginRight: 15,
+},
 });

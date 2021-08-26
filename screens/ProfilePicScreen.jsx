@@ -6,9 +6,6 @@ import { db } from '../utils/firebase';
 import useCurrentUser from '../hooks/useCurrentUser';
 import ImagePicker from '../components/ImagePicker';
 
-// const uid = 'aYKecbOHBWevWf2PNw6csQkFbE62'
-// const email = 'blah'
-
 export default function ProfilePicScreen({ navigation, route }) {
     const [image, setImage] = useState(null)
     const { email, uid } = route.params

@@ -43,7 +43,6 @@ export default function InterestsScreen({ navigation, route }) {
                 title="What are your interests?" description="Select all that apply"
             />
             <View style={styles.buttons}>
-
                 {interests.map((interest, idx) => <CustomBubbleButton
                 key={idx}
                 title={data[idx]}
