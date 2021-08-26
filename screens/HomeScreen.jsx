@@ -80,7 +80,7 @@ export default function HomeScreen({ navigation }) {
                 </Text>
                 <Text style={{color: 'white', fontWeight: 'bold'}}>
                   {item.date.split('/')[1]}
-                </Text></Text>
+                </Text>
             <View  style={styles.topViews}>
               <TouchableOpacity
                 style={[styles.touchable, profile?.goalHistory?.includes(item.date) && styles.completed]}
