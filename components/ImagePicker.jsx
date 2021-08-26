@@ -1,22 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Image, View, Platform } from 'react-native';
+import { Button, Image, View, Platform, TouchableOpacity, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import ProfileImage from '../assets/ProfilePicture.png'
 
-export default function CustomImagePicker({ image, setImage }) {
-  useEffect(() => {
-    (async () => {
-      if (Platform.OS !== 'web') {
-        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (status !== 'granted') {
-          alert('Sorry, we need camera roll permissions to make this work!');
-        }
-      }
-    })();
-  }, []);
+export default function CustomImagePicker({image, setImage}) {
+  
+  async function checkPermissions () {
+    let result = await ImagePicker.getMediaLibraryPermissionsAsync();
+    console.log(result)
+  }
+
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
@@ -30,9 +26,37 @@ export default function CustomImagePicker({ image, setImage }) {
   };
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Button title="Pick an image from camera roll" onPress={pickImage} />
-      {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-    </View>
+    <TouchableOpacity style={[styles.button]} onPress={pickImage}>
+      {<Image source={image ? { uri: image } : ProfileImage} style={{ width: 200, height: 200, borderRadius: 100, }} />}
+      </TouchableOpacity>
+
   );
 }
+
+const styles = StyleSheet.create({
+  input: {
+    backgroundColor: 'white',
+    borderBottomWidth: 3,
+    padding: 10,
+    marginTop: 20,
+    fontSize: 20,
+  },
+  button: {
+      alignSelf: 'center',
+      marginTop: 20,
+  },
+  text: {
+    textAlign: 'center',
+    fontSize: 18,
+    fontWeight: '500',
+    padding: 12,
+  },
+  mainButton: {
+      borderRadius: 60,
+      marginRight: 20,
+      marginBottom: 50,
+      width: 63,
+      fontSize: 20,
+      alignSelf: 'flex-end'
+    },
+});

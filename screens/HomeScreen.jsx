@@ -1,4 +1,7 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux'
+import { updateProfile } from '../state/profile.js'
+import { updateBuddyProfile } from '../state/buddyProfile.js'
 import { StyleSheet, View, Text, Image, TouchableOpacity, Button } from 'react-native';
 import useCurrentUser from '../hooks/useCurrentUser';
 import randomQuote from '../utils/quotes';
@@ -17,20 +20,25 @@ const goalDates = [6, 5, 4, 3, 2, 1, 0].map((item) => getDate(item));
 
 export default function HomeScreen({ navigation }) {
   const { currentUser } = useCurrentUser();
-  const [profile, setProfile] = useState({});
-  const [buddyProfile, setBuddyProfile] = useState({});
+  const profile = useSelector(state => state.profile.value)
+  const buddyProfile = useSelector(state => state.buddyProfile.value)
+  const dispatch = useDispatch()
+
   const date = new Date().toLocaleDateString();
 
   useLayoutEffect(() => {
     const unsubscribe = usersRef.doc(currentUser?.uid).onSnapshot((res) => {
       const data = res.data();
-      setProfile(data);
+      delete data.createdAt
+      dispatch(updateProfile(data))
       if (data?.buddyId) {
         usersRef
           .doc(data.buddyId)
           .get()
           .then((res) => {
-            setBuddyProfile(res.data());
+            const buddyData = res.data()
+            delete buddyData.createdAt
+            dispatch(updateBuddyProfile(buddyData))
           });
       }
     });
@@ -44,25 +52,16 @@ export default function HomeScreen({ navigation }) {
       .doc(currentUser.uid)
       .get()
       .then((res) => {
-        if (!res.data().goalHistory) {
-          setProfile({ ...profile, goalHistory: [date] });
-          usersRef.doc(currentUser.uid).update({
-            goalHistory: [date],
-          });
-        } else if (res.data().goalHistory.find((item) => item === date)) {
-          setProfile({
-            ...profile,
-            goalHistory: profile.goalHistory.filter((item) => item !== date),
-          });
-          usersRef.doc(currentUser.uid).update({
-            goalHistory: res.data().goalHistory.filter((item) => item !== date),
-          });
+        data = Object.assign({}, res.data());
+        delete data.createdAt
+        if (!data.goalHistory) data.goalHistory = []
+        if (data.goalHistory.includes(date)) {
+          data.goalHistory = data.goalHistory.filter(goalDate => goalDate !== date)
         } else {
-          setProfile({ ...profile, goalHistory: [...profile.goalHistory, date] });
-          usersRef.doc(currentUser.uid).update({
-            goalHistory: [...res.data().goalHistory, date],
-          });
+          data.goalHistory.push(date)
         }
+        dispatch(updateProfile(data))
+        usersRef.doc(currentUser.uid).update(data);
       })
       .catch(console.log);
   }

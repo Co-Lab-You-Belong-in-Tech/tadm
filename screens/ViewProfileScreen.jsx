@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux'
 import { View, StyleSheet, Text, Button } from 'react-native';
 import useCurrentUser from '../hooks/useCurrentUser';
 import { db } from '../utils/firebase';
@@ -6,24 +7,7 @@ const usersRef = db.collection('users');
 
 export default function ViewProfile({ navigation }) {
   const { currentUser } = useCurrentUser();
-  const [profile, setProfile] = useState({});
-  const [buddyProfile, setBuddyProfile] = useState({});
-
-  useEffect(() => {
-    const unsubscribe = usersRef.doc(currentUser?.uid).onSnapshot((res) => {
-      const data = res.data();
-      setProfile(data);
-      if (data?.buddyId) {
-        usersRef
-          .doc(data.buddyId)
-          .get()
-          .then((res) => {
-            setBuddyProfile(res.data());
-          });
-      }
-    });
-    return unsubscribe;
-  }, []);
+  const profile = useSelector(state => state.profile.value)
 
   return <>
     <Button onPress={() => navigation.goBack()} title="Edit Profile"></Button>
