@@ -71,7 +71,6 @@ export default function DistractionsScreen({ navigation, route }) {
             <View style={{flex: 1, display: 'flex', justifyContent: 'flex-end'}}>
                 <CustomIconButton
                 title="➔"
-                onPress={handleSubmit}
                 style={[styles.mainButton]}
                 />
             </View>

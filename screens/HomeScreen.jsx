@@ -80,7 +80,7 @@ export default function HomeScreen({ navigation }) {
                 </Text>
                 <Text style={{color: 'white', fontWeight: 'bold'}}>
                   {item.date.split('/')[1]}
-                </Text>
+                </Text></Text>
             <View  style={styles.topViews}>
               <TouchableOpacity
                 style={[styles.touchable, profile?.goalHistory?.includes(item.date) && styles.completed]}
@@ -263,6 +263,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     paddingTop: 20,
     marginTop: 10,
+
     marginLeft: 23,
     marginRight: 20,
     fontSize: 18,
@@ -272,12 +273,6 @@ const styles = StyleSheet.create({
   },
   bottomTextSecond: {
     marginTop: 15,
-    marginLeft: 20,
-    marginRight: 20,
-    fontSize: 18,
-    color: 'white',
-    textAlign: 'left',
-    alignSelf: 'stretch',
     flex: .4,
   },
   middleText: {

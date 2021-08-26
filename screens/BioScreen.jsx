@@ -39,7 +39,6 @@ export default function BioScreen({ navigation, route }) {
             <View style={{flex: 1, display: 'flex', justifyContent: 'flex-end'}}>
                 <CustomIconButton
                 title="➔"
-                onPress={handlePress}
                 style={[styles.mainButton]}
                 />
             </View>

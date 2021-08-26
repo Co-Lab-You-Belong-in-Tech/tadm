@@ -19,7 +19,6 @@ export default function GoalsScreen({ navigation, route }) {
         .catch(console.log)
         navigation.navigate('Preferences', { email, uid })
     }
-
     return (
         <View style={{ backgroundColor: 'white', padding: 30, flex: 1, }}>
             <Intro
