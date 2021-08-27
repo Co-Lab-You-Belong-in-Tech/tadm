@@ -8,6 +8,11 @@ import { Provider } from 'react-redux'
 import HomeScreen from './screens/HomeScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import ViewProfileScreen from './screens/ViewProfileScreen';
+import ViewBuddyProfileScreen from './screens/ViewBuddyProfileScreen';
+import EditBioScreen from './screens/editScreens/EditBio'
+import EditInterestsScreen from './screens/editScreens/EditInterests'
+import EditMainGoalScreen from './screens/editScreens/EditMainGoal'
+import EditPersonalityScreen from './screens/editScreens/EditPersonality'
 import LandingScreen from './screens/LandingScreen';
 import SigninScreen from './screens/SigninScreen';
 import SignupScreen from './screens/SignupScreen';
@@ -55,7 +60,6 @@ const ApplicationNavigation = () => {
       <Stack.Screen name="MainGoal" component={MainGoalScreen} />
       <Stack.Screen name="Goals" component={GoalsScreen} />
       <Stack.Screen name="Preferences" component={PreferencesScreen} />
-      <Stack.Screen name="Profile" component={ProfileScreen} />
     </Stack.Navigator>
   );
 };
@@ -63,7 +67,7 @@ const ApplicationNavigation = () => {
 function HomeTabNavigation() {
   return (
     <Tab.Navigator
-      initialRouteName="HomeScreen"
+      initialRouteName="HomeScreenStackNavigation"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
@@ -75,11 +79,11 @@ function HomeTabNavigation() {
       options={{
         tabBarIcon: ({focused}) => <Icon imgSrc={focused ? icons.chatFocused : icons.chat}/>,
       }}/>
-      <Tab.Screen name="HomeScreen" component={HomeScreen}       
+      <Tab.Screen name="HomeScreenStackNavigation" component={HomeScreenStackNavigation}       
       options={{
         tabBarIcon: ({focused}) => <Icon imgSrc={focused ? icons.homeFocused : icons.home}/>,
       }}/>
-      <Tab.Screen name="ViewProfile" component={ViewProfileScreen} 
+      <Tab.Screen name="ViewProfileStackNavigation" component={ViewProfileStackNavigation} 
       options={{
         tabBarIcon: ({focused}) => <Icon imgSrc={focused ? icons.profileFocused : icons.profile}/>,
       }}/>
@@ -111,3 +115,22 @@ function Icon ({ imgSrc }) {
   )
 }
 
+function ViewProfileStackNavigation() {
+  return (
+      <Stack.Navigator>
+        <Stack.Screen name="ViewProfile" options={{ headerMode:"none" }} component={ViewProfileScreen} />
+        <Stack.Screen name="EditBio" options={{ headerBackTitle: '', title: '' }} component={EditBioScreen} />
+        <Stack.Screen name="EditInterests" options={{ headerBackTitle: '', title: '' }} component={EditInterestsScreen} />
+        <Stack.Screen name="EditPersonality" options={{ headerBackTitle: '', title: '' }} component={EditPersonalityScreen} />
+        <Stack.Screen name="EditMainGoal" options={{ headerBackTitle: '', title: '' }} component={EditMainGoalScreen} />
+      </Stack.Navigator>
+  );
+}
+function HomeScreenStackNavigation() {
+  return (
+      <Stack.Navigator>
+        <Stack.Screen name="Home" options={{ headerMode:"none" }} component={HomeScreen} />
+        <Stack.Screen name="ViewBuddyProfile" options={{ headerBackTitle: '', title: '' }} component={ViewBuddyProfileScreen} />
+      </Stack.Navigator>
+  );
+}

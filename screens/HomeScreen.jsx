@@ -93,14 +93,22 @@ export default function HomeScreen({ navigation }) {
       <View style={styles.middle}>
         <Text style={styles.middleText}>Do the one thing that would make you satisfied with your day</Text>
       </View>
-      <View style={styles.bottom}>
-        <Text style={styles.bottomText}>{buddyProfile?.name || 'Partner'}'s Goal of the Week </Text>
-        {matched ? <Text style={styles.bottomTextSecond}> {buddyProfile.goal} </Text> : <View style={matched ? styles.bottomMatched : styles.bottomUnMatched}>
-          <Text style={matched ? styles.bottomMatchedText : styles.bottomUnMatchedText}>
-            {'Waiting to match...'}{' '}
-          </Text>
-        </View>}
-        <View style={styles.topView}>
+      <TouchableOpacity style={styles.bottom} onPress={() => navigation.navigate('ViewBuddyProfile')}>
+        <View style={{display: 'flex', flexDirection: 'row', margin: 20, marginLeft: 40, alignItems: 'flex-start',}}>
+          <View style={{borderRadius: 100, borderWidth: 1, borderColor: 'white',}}>
+          <Image source={{ uri: buddyProfile.uri }} style={styles.image} />
+          </View>
+          <View>
+            <Text style={styles.bottomText}>{buddyProfile?.name || 'Partner'}'s Goal of the Week </Text>
+            {matched !== 0 && <Text style={styles.bottomTextSecond}> {buddyProfile.goal} </Text>} 
+            </View>
+            {matched === 0 || <View style={matched ? styles.bottomMatched : styles.bottomUnMatched}>
+              <Text style={matched ? styles.bottomMatchedText : styles.bottomUnMatchedText}>
+                {'Waiting to match...'}{' '}
+              </Text>
+              </View>}
+        </View>
+        <View style={styles.bottomView}>
           {goalDates.map((item, idx) => (<View key={idx} style={styles.checkboxContainer}>
                 <Text style={{color: '#FFABAB'}}>
                   {item.day}
@@ -115,7 +123,7 @@ export default function HomeScreen({ navigation }) {
             </View>
           </View>))}
         </View>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -123,6 +131,12 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
+  },
+  image: {
+   width: 100, 
+   height: 100, 
+   borderRadius: 100,
+   borderColor: 'white',
   },
   container: {
     flex: 1,
@@ -156,6 +170,14 @@ const styles = StyleSheet.create({
   },
   topView: {
     marginTop: 70,
+    width: 20,
+    height: 20,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  bottomView: {
+    marginTop: 50,
     width: 20,
     height: 20,
     flexDirection: 'row',
@@ -277,8 +299,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'white',
     textAlign: 'left',
-    alignSelf: 'stretch',
-    flex: .4,
   },
   middleText: {
     fontWeight: 'bold',
