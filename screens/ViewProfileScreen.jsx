@@ -4,9 +4,12 @@ import { ScrollView, View, StyleSheet, Text, Button, Image } from 'react-native'
 import useCurrentUser from '../hooks/useCurrentUser';
 import CustomIconButton from '../components/CustomIconButton';
 import CustomBubbleButton from '../components/CustomBubbleButton';
+import ProfileImage from '../assets/ProfilePicture.png'
 import Intro from '../components/Intro';
 import { db } from '../utils/firebase';
 const usersRef = db.collection('users');
+
+const defaultProfile = 'https://yt3.ggpht.com/-2lcjvQfkrNY/AAAAAAAAAAI/AAAAAAAAAAA/ouxs6ZByypg/s900-c-k-no/photo.jpg'
 
 export default function ViewProfile({ navigation }) {
   const { currentUser } = useCurrentUser();
@@ -15,7 +18,7 @@ export default function ViewProfile({ navigation }) {
   return <ScrollView style={{ backgroundColor: 'white', padding: 30, paddingTop: 10, flex: 1, }}>
     <Button onPress={() => navigation.navigate('ViewBuddyProfile')} title="Edit"></Button>
     <View style={{ display: 'flex', alignItems: 'center', alignSelf: 'center' }}>
-      <Image source={{ uri: profile.uri }} style={{ width: 200, height: 200, borderRadius: 100, borderWidth: 3, }} />
+      <Image source={profile.uri ? { uri: profile.uri } : {uri: defaultProfile}} style={{ width: 200, height: 200, borderRadius: 100, borderWidth: 3, }} />
       <Text style={styles.title}>{profile.name}</Text>
     </View>
     <View>

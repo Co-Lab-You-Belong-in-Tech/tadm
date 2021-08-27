@@ -2,7 +2,7 @@ import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { updateProfile } from '../state/profile.js'
 import { updateBuddyProfile } from '../state/buddyProfile.js'
-import { StyleSheet, View, Text, Image, TouchableOpacity, Button } from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableOpacity, Button, ImageBackground } from 'react-native';
 import useCurrentUser from '../hooks/useCurrentUser';
 import randomQuote from '../utils/quotes';
 import { db } from '../utils/firebase';
@@ -93,7 +93,13 @@ export default function HomeScreen({ navigation }) {
       <View style={styles.middle}>
         <Text style={styles.middleText}>Do the one thing that would make you satisfied with your day</Text>
       </View>
-      <TouchableOpacity style={styles.bottom} onPress={() => navigation.navigate('ViewBuddyProfile')}>
+      {matched === 0 ? <View style={[styles.bottom]}>
+        <View style={{display: 'flex', justifyContent: 'center', flex: 1,}}>
+          <Text style={{color: 'gray', fontSize: 40, fontWeight: 'bold',}}>
+            Waiting to match...
+          </Text>
+        </View>
+              </View> : <TouchableOpacity style={styles.bottom} onPress={() => navigation.navigate('ViewBuddyProfile')}>
         <View style={{display: 'flex', flexDirection: 'row', margin: 20, marginLeft: 40, alignItems: 'flex-start',}}>
           <View style={{borderRadius: 100, borderWidth: 1, borderColor: 'white',}}>
           <Image source={{ uri: buddyProfile.uri }} style={styles.image} />
@@ -102,11 +108,6 @@ export default function HomeScreen({ navigation }) {
             <Text style={styles.bottomText}>{buddyProfile?.name || 'Partner'}'s Goal of the Week </Text>
             {matched !== 0 && <Text style={styles.bottomTextSecond}> {buddyProfile.goal} </Text>} 
             </View>
-            {matched === 0 || <View style={matched ? styles.bottomMatched : styles.bottomUnMatched}>
-              <Text style={matched ? styles.bottomMatchedText : styles.bottomUnMatchedText}>
-                {'Waiting to match...'}{' '}
-              </Text>
-              </View>}
         </View>
         <View style={styles.bottomView}>
           {goalDates.map((item, idx) => (<View key={idx} style={styles.checkboxContainer}>
@@ -123,7 +124,7 @@ export default function HomeScreen({ navigation }) {
             </View>
           </View>))}
         </View>
-      </TouchableOpacity>
+      </TouchableOpacity>}
     </View>
   );
 }
