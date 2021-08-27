@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Image, View, Platform, TouchableOpacity, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import firebase from 'firebase';
 import { db } from '../utils/firebase';
 import ProfileImage from '../assets/ProfilePicture.png'
 
