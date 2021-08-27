@@ -4,10 +4,6 @@ import * as ImagePicker from 'expo-image-picker';
 import { db } from '../utils/firebase';
 import ProfileImage from '../assets/ProfilePicture.png'
 
-import config from '../config';
-
-const firebaseInstance =
-  firebase.apps.length === 0 ? firebase.initializeApp(config.firebase) : firebase;
 
 export default function CustomImagePicker({image, setImage, uid}) {
   
