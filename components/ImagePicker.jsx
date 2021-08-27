@@ -76,8 +76,7 @@ const styles = StyleSheet.create({
     },
 });
 
-
-export async function uploadImageAsync(uri, uid) {
+async function uploadImageAsync(uri, uid) {
   // Why are we using XMLHttpRequest? See:
   // https://github.com/expo/expo/issues/2402#issuecomment-443726662
   const blob = await new Promise((resolve, reject) => {
