@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { ScrollView, View, Button, StyleSheet, TouchableOpacity, Text } from 'react-native';
-import Intro from '../components/Intro';
-import InputField from '../components/InputField';
-import CustomBubbleButton from '../components/CustomBubbleButton';
-import CustomIconButton from '../components/CustomIconButton';
-import { db } from '../utils/firebase';
-import useCurrentUser from '../hooks/useCurrentUser';
+import Intro from '../../components/Intro';
+import InputField from '../../components/InputField';
+import CustomBubbleButton from '../../components/CustomBubbleButton';
+import CustomButton from '../../components/CustomButton';
+import { db } from '../../utils/firebase';
+import useCurrentUser from '../../hooks/useCurrentUser';
+import { useSelector, useDispatch } from 'react-redux'
 
 const data = [
     'Reading', 'Television', 'Music', 'Gardening', 'Fishing', 
@@ -14,19 +15,18 @@ const data = [
     'Dancing', 'Biking', 
 ]
 
-export default function InterestsScreen({ navigation, route }) {
+export default function EditInterests({ navigation, route }) {
     const [interests, setInterests] = useState(data.map(name => ({ name, selected: false }) ))
-
-    const { uid, email } = route.params
+    const { currentUser } = useCurrentUser();
 
     function handlePress () {
         if (!interests.filter(item => item.selected).length) return
         const selectedInterests = interests.filter(interest => interest.selected).map(item => item.name)
         db.collection('users')
-        .doc(uid)
+        .doc(currentUser.uid)
         .update({ interests: selectedInterests })
         .catch(console.log)
-        navigation.navigate('ProfilePic', { email, uid })
+        navigation.goBack()
     }
 
     function handleSelect (interest, idx) {
@@ -39,9 +39,7 @@ export default function InterestsScreen({ navigation, route }) {
 
     return (
         <View style={{ backgroundColor: 'white', padding: 30, flex: 1 }}>
-            <Intro
-                title="What are your interests?" description="Select all that apply"
-            />
+          <Text style={styles.title}>Select all that apply</Text>
             <View style={styles.buttons}>
                 {interests.map((interest, idx) => <CustomBubbleButton
                 key={idx}
@@ -52,8 +50,8 @@ export default function InterestsScreen({ navigation, route }) {
                 />)}
             </View>
             <View style={{flex: 1, display: 'flex', justifyContent: 'flex-end'}}>
-                <CustomIconButton
-                title="➔"
+                <CustomButton
+                title="Save"
                 onPress={handlePress}
                 style={[styles.mainButton]}
                 />
@@ -96,11 +94,15 @@ const styles = StyleSheet.create({
     },
     mainButton: {
         borderRadius: 60,
-        marginRight: 20,
         marginBottom: 50,
-        width: 63,
         fontSize: 20,
         alignSelf: 'flex-end'
       },
+    title: {
+    fontWeight: 'bold',
+    fontSize: 28,
+    marginTop: 10,
+    marginBottom: 20,
+    },
   });
 

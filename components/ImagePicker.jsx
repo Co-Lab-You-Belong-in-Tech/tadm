@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Image, View, Platform, TouchableOpacity, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import firebase from 'firebase';
 import { db } from '../utils/firebase';
 import ProfileImage from '../assets/ProfilePicture.png'
 
+import config from '../config';
 
 export default function CustomImagePicker({image, setImage, uid}) {
   
@@ -73,7 +75,6 @@ const styles = StyleSheet.create({
       alignSelf: 'flex-end'
     },
 });
-
 
 async function uploadImageAsync(uri, uid) {
   // Why are we using XMLHttpRequest? See:

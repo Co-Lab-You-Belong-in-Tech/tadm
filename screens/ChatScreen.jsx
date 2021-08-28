@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { View, StyleSheet, Text } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat'
 import useCurrentUser from '../hooks/useCurrentUser';
@@ -9,25 +10,20 @@ const messagesRef = db.collection('chats');
 export default function Chat({ navigation }) {
   const [messages, setMessages] = useState([]);
   const { currentUser } = useCurrentUser();
-  const [profile, setProfile] = useState({});
-  const [buddyProfile, setBuddyProfile] = useState({});
+  const profile = useSelector(state => state.profile.value)
 
   useEffect(() => {
     const unsubscribe = messagesRef.orderBy('createdAt', 'desc').onSnapshot((res) => {
-      usersRef.doc(currentUser?.uid).get().then((user) => {
-        const data = user.data();
-        setProfile(data)
-        setMessages(
-          res.docs.filter(doc => {
-            return doc.data().user._id === currentUser.uid || doc.data().user._id === user.data().buddyId
-          }).map(doc => ({
-            _id: doc.data()._id,
-            createdAt: doc.data().createdAt.toDate(),
-            text: doc.data().text,
-            user: doc.data().user,
-          }))
-        )
-      });
+      setMessages(
+        res.docs.filter(doc => {
+          return doc.data().user._id === currentUser.uid || doc.data().user._id === profile.buddyId
+        }).map(doc => ({
+          _id: doc.data()._id,
+          createdAt: doc.data().createdAt.toDate(),
+          text: doc.data().text,
+          user: doc.data().user,
+        }))
+      )
     });
     return unsubscribe;
   }, []);
@@ -49,7 +45,8 @@ export default function Chat({ navigation }) {
       onSend={messages => onSend(messages)}
       user={{
         _id: currentUser?.uid,
-        name: profile?.name
+        name: profile?.name,
+        avatar: profile?.uri
       }}
     />
   )

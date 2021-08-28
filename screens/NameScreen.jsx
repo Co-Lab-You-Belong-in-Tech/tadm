@@ -30,7 +30,7 @@ export default function NameScreen({ navigation, route }) {
                 label="Your Name"
                 value={name}
                 onChangeText={(text) => setName(text)}
-                autoCapitalize="words"
+                autoCorrect={false}
                 style={styles.input}
                 placeholder="Your name"
             />

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { updateProfile } from '../state/profile.js'
 import { updateBuddyProfile } from '../state/buddyProfile.js'
-import { StyleSheet, View, Text, Image, TouchableOpacity, Button } from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableOpacity, Button, ImageBackground } from 'react-native';
 import useCurrentUser from '../hooks/useCurrentUser';
 import randomQuote from '../utils/quotes';
 import { db } from '../utils/firebase';
@@ -93,14 +93,23 @@ export default function HomeScreen({ navigation }) {
       <View style={styles.middle}>
         <Text style={styles.middleText}>Do the one thing that would make you satisfied with your day</Text>
       </View>
-      <View style={styles.bottom}>
-        <Text style={styles.bottomText}>{buddyProfile?.name || 'Partner'}'s Goal of the Week </Text>
-        {matched ? <Text style={styles.bottomTextSecond}> {buddyProfile.goal} </Text> : <View style={matched ? styles.bottomMatched : styles.bottomUnMatched}>
-          <Text style={matched ? styles.bottomMatchedText : styles.bottomUnMatchedText}>
-            {'Waiting to match...'}{' '}
+      {matched === 0 ? <View style={[styles.bottom]}>
+        <View style={{display: 'flex', justifyContent: 'center', flex: 1,}}>
+          <Text style={{color: 'gray', fontSize: 40, fontWeight: 'bold',}}>
+            Waiting to match...
           </Text>
-        </View>}
-        <View style={styles.topView}>
+        </View>
+              </View> : <TouchableOpacity style={styles.bottom} onPress={() => navigation.navigate('ViewBuddyProfile')}>
+        <View style={{display: 'flex', flexDirection: 'row', margin: 20, marginLeft: 40, alignItems: 'flex-start',}}>
+          <View style={{borderRadius: 100, borderWidth: 1, borderColor: 'white',}}>
+          <Image source={{ uri: buddyProfile.uri }} style={styles.image} />
+          </View>
+          <View>
+            <Text style={styles.bottomText}>{buddyProfile?.name || 'Partner'}'s Goal of the Week </Text>
+            {matched !== 0 && <Text style={styles.bottomTextSecond}> {buddyProfile.goal} </Text>} 
+            </View>
+        </View>
+        <View style={styles.bottomView}>
           {goalDates.map((item, idx) => (<View key={idx} style={styles.checkboxContainer}>
                 <Text style={{color: '#FFABAB'}}>
                   {item.day}
@@ -115,7 +124,7 @@ export default function HomeScreen({ navigation }) {
             </View>
           </View>))}
         </View>
-      </View>
+      </TouchableOpacity>}
     </View>
   );
 }
@@ -123,6 +132,12 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
+  },
+  image: {
+   width: 100, 
+   height: 100, 
+   borderRadius: 100,
+   borderColor: 'white',
   },
   container: {
     flex: 1,
@@ -156,6 +171,14 @@ const styles = StyleSheet.create({
   },
   topView: {
     marginTop: 70,
+    width: 20,
+    height: 20,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  bottomView: {
+    marginTop: 50,
     width: 20,
     height: 20,
     flexDirection: 'row',
@@ -277,8 +300,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'white',
     textAlign: 'left',
-    alignSelf: 'stretch',
-    flex: .4,
   },
   middleText: {
     fontWeight: 'bold',
