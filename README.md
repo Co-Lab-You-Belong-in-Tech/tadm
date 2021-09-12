@@ -6,7 +6,7 @@ A project that seeks to connect professionals with accountability buddies.
 
 ## Demo
 
-Insert gif or link to demo
+https://www.loom.com/share/678ed51d5f234a84a5fa84e2df7e225e
 
   
 ## Features
